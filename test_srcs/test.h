@@ -46,8 +46,8 @@ t_vec3	ft_set_vecele(t_vec3 v, double x, double y, double z);
 
 t_cam	ft_screan_base(t_cam cam);
 t_cam	ft_screan_base_normal(t_cam cam);
-t_vec3	ft_make_ray(t_cam cam, int x, int y, double width);
+t_vec3	ft_make_ray(t_cam cam, int x, int y, int widht, int hight);
 
-int		make_sphere(t_cam cam, t_sp sp, int x, int y, int whidth);
+int		make_sphere(t_cam cam, t_sp sp, int x, int y, int width, int hight);
 
 #endif

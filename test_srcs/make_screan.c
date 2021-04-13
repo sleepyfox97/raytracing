@@ -34,13 +34,13 @@ t_cam	ft_screan_base_normal(t_cam cam)
 }
 
 //上で作ったbaseをもとに，rayを作る．
-t_vec3	ft_make_ray(t_cam cam, int x, int y, double width)
+t_vec3	ft_make_ray(t_cam cam, int x, int y, int width, int hight)
 {
 	t_vec3	v_ray;
 	t_vec3	v_cs;
 
 	v_cs = ft_linear_transform(cam.p_cam, cam.r_cam, 1, (width / (2 * tan(cam.fov / 2))));
-	v_ray = ft_linear_transform(cam.s_b1, cam.s_b2, x, y); //ここミスってる！！！！！
+	v_ray = ft_linear_transform(cam.s_b1, cam.s_b2, (x - width / 2), (y - hight / 2 )); //ここミスってる！！！！！
 	v_ray = ft_linear_transform(v_ray, v_cs, 1, 1);
 	return (v_ray);
 }
@@ -72,6 +72,7 @@ t_vec3	ft_make_ray(t_cam cam, int x, int y, double width)
 // int	main() 
 // {
 // 	t_cam	cam;
+// 	t_vec3 v;
 
 // 	cam.p_cam.x = 0;
 // 	cam.p_cam.y = 0;
@@ -84,5 +85,8 @@ t_vec3	ft_make_ray(t_cam cam, int x, int y, double width)
 // 	cam = ft_screan_base(cam);
 // 	printf("cam.s_b1.x=%lf\n  cam.s_b1.y=%lf\n  cam.s_b1.z=%lf\n", cam.s_b1.x, cam.s_b1.y, cam.s_b1.z);
 // 	printf("cam.s_b2.x=%lf\n  cam.s_b2.y=%lf\n  cam.s_b2.z=%lf\n", cam.s_b2.x, cam.s_b2.y, cam.s_b2.z);
+
+// 	v = ft_make_ray(cam, 350, 300, 500, 500);
+// 	printf("v.x=%lf\nv.y=%lf\nv.z=%lf\n", v.x, v.y,v.z);
 // 	return (0);
 // }
