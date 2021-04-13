@@ -27,6 +27,12 @@ typedef struct	s_cam
 	double fov;
 }	t_cam;
 
+typedef struct	s_sp
+{
+	t_vec3 sp_c;
+	double r;
+}	t_sp;
+
 //p_cam:place of the camera;
 //r_cam:ray of the camera;
 
@@ -40,4 +46,8 @@ t_vec3	ft_set_vecele(t_vec3 v, double x, double y, double z);
 
 t_cam	ft_screan_base(t_cam cam);
 t_cam	ft_screan_base_normal(t_cam cam);
+t_vec3	ft_make_ray(t_cam cam, int x, int y, double width);
+
+int		make_sphere(t_cam cam, t_sp sp, int x, int y, int whidth);
+
 #endif
