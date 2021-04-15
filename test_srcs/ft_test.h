@@ -49,7 +49,7 @@ t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
 
 
 t_cam	ft_make_screan_base(t_cam cam);
-t_vec3	ft_make_ray(t_cam cam, double  x, double y, double widht, double hight);
+t_vec3	ft_make_ray(t_cam cam, double  x, double y);
 
 int		make_sphere(t_cam cam, t_sp sp, double x, double y, double width, double hight);
 

@@ -1,5 +1,9 @@
 #include "./ft_test.h"
 
+
+
+
+
 t_cam	ft_make_screan_base(t_cam cam)
 {
 	cam.s_b1 = ft_set_vecele(1, 1, 0);
@@ -14,8 +18,8 @@ t_cam	ft_make_screan_base(t_cam cam)
 		cam.s_b2 = ft_set_vecele(0, 0, 1);
 	else
 	{
-		if (cam.r_cam.x == cam.r_cam.y && 3 * cam.r_cam.x == cam.r_cam.z)
-			cam.s_b2.z = 2;
+		if (cam.r_cam.x == cam.r_cam.y)
+			cam.s_b2.x = 2;
 		cam.s_b2 = ft_gramschmidt_2(cam.r_cam, cam.s_b1, cam.s_b2);
 	}
 	cam.s_b1 = ft_make_unitvec(cam.s_b1);
@@ -23,10 +27,16 @@ t_cam	ft_make_screan_base(t_cam cam)
 	return (cam);
 }
 
-t_vec3	ft_get_ptoscvec(t_cam cam, double width)
-{
-	
-}
+//to get p_to_sc vector, you only do following contents.
+//
+//t_vec3 p_to_sc;
+//p_to_sc = ft_linear_transform(r_cam, r_cam,(width/(2*tan(FOV/2))), 0);
+//
+//
+//スクリーン平面のしきから，平面上のスクリーン原点ではない，ｚ座標が等しい転を取る．
+//その点までの，スクリーン平面空の点を取る，
+//
+//
 
 t_vec3	ft_make_ray(t_cam cam, double x, double y)
 {
@@ -46,18 +56,23 @@ int	main()
 	cam.p_cam.x = 0;
 	cam.p_cam.y = 0;
 	cam.p_cam.z = 0;
-	cam.r_cam.x = 1;
-	cam.r_cam.y = 1;
+	cam.r_cam.x = 3;
+	cam.r_cam.y = 3;
 	cam.r_cam.z = 3;
 	cam.r_cam = ft_make_unitvec(cam.r_cam);
 	cam.fov = M_PI / 4;
+	double width = 500;
 	cam = ft_make_screan_base(cam);
 	printf("cam.s_b1.x=%lf\n  cam.s_b1.y=%lf\n  cam.s_b1.z=%lf\n", cam.s_b1.x, cam.s_b1.y, cam.s_b1.z);
 	printf("cam.s_b2.x=%lf\n  cam.s_b2.y=%lf\n  cam.s_b2.z=%lf\n", cam.s_b2.x, cam.s_b2.y, cam.s_b2.z);
 
-	// v = ft_make_ray(cam, 350, 300, 500, 500);
-	// printf("v.x=%lf\nv.y=%lf\nv.z=%lf\n", v.x, v.y,v.z);
-	// return (0);
+	double a = ft_inner_product(cam.s_b1, cam.s_b2);
+	printf("a=%lf\n",a);
+
+	cam.p_to_sc = ft_linear_transform(cam.r_cam, cam.r_cam, (width / (2 * tan(cam.fov / 2))), 0);
+	v = ft_make_ray(cam, 0, 0);
+	printf("v.x=%lf\nv.y=%lf\nv.z=%lf\n", v.x, v.y,v.z);
+	return (0);
 }
 	//cam.r_cam.y == 0の時は，y軸方向にscrean平面のベクトルが一本立ってないとおかしい．
 	//printf("%lf  %lf  %lf\n", v_cs.x, v_cs.y , v_cs.z);
@@ -81,3 +96,5 @@ int	main()
 	// t_vec3 ft_make_rayvec(int x, int y, t_vec3 v_b)
 	// {
 	// }
+
+	//camの方向ベクトルが，(1,1,z)のパターンの時にバグる．
