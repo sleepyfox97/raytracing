@@ -2,10 +2,13 @@
 
 t_cam	ft_make_screan_base(t_cam cam)
 {
-	cam.s_b2 = ft_set_vecele(1, 1, 1);
-	if (cam.r_cam.x == 0)
+	if (cam.r_cam.x == 0 && cam.r_cam.y >= 0)
 		cam.s_b1 = ft_set_vecele(1, 0, 0);
-	else if (cam.r_cam.y == 0)
+	else if (cam.r_cam.x == 0 && cam.r_cam.y < 0)
+		cam.s_b1 = ft_set_vecele(-1, 0, 0);
+	else if (cam.r_cam.y == 0 && cam.r_cam.x > 0)
+		cam.s_b1 = ft_set_vecele(0, -1, 0);
+	else if (cam.r_cam.y == 0 && cam.r_cam.x < 0)
 		cam.s_b1 = ft_set_vecele(0, 1, 0);
 	else
 	{
@@ -78,15 +81,15 @@ int	main()
 	cam.p_cam.x = 0;
 	cam.p_cam.y = 0;
 	cam.p_cam.z = 0;
-	cam.r_cam.x = 1;
+	cam.r_cam.x = 0;
 	cam.r_cam.y = 1;
 	cam.r_cam.z = 1;
 	cam.r_cam = ft_make_unitvec(cam.r_cam);
 	cam.fov = M_PI / 4;
 	double width = 500;
 	cam = ft_make_screan_base(cam);
-	printf("cam.s_b1.x=%lf\n  cam.s_b1.y=%lf\n  cam.s_b1.z=%lf\n", cam.s_b1.x, cam.s_b1.y, cam.s_b1.z);
-	printf("cam.s_b2.x=%lf\n  cam.s_b2.y=%lf\n  cam.s_b2.z=%lf\n", cam.s_b2.x, cam.s_b2.y, cam.s_b2.z);
+	printf("cam.s_b1.x=%lf  cam.s_b1.y=%lf  cam.s_b1.z=%lf\n\n", cam.s_b1.x, cam.s_b1.y, cam.s_b1.z);
+	printf("cam.s_b2.x=%lf  cam.s_b2.y=%lf  cam.s_b2.z=%lf\n\n", cam.s_b2.x, cam.s_b2.y, cam.s_b2.z);
 
 	double b1_b2 = ft_inner_product(cam.s_b1, cam.s_b2);
 	double b1_cam = ft_inner_product(cam.s_b1, cam.r_cam);
@@ -122,3 +125,8 @@ int	main()
 	// }
 
 	//camの方向ベクトルが，(1,1,z)のパターンの時にバグる．
+
+
+
+//widthはウィンドウの幅なのか，横のピクセル数なのかで微妙に代わる．
+//スクリーンが上下左右に1/2ピクセルずれたものになる気がする．
