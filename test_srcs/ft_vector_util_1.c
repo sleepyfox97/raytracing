@@ -46,7 +46,7 @@ double	ft_v_d_len(t_vec3 v)
 	return (vec_double_len);
 }
 
-t_vec3	ft_make_nomalvec(t_vec3 v)
+t_vec3	ft_make_unitvec(t_vec3 v)
 {
 	double	v_len;
 
