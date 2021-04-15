@@ -42,12 +42,15 @@ double	ft_inner_product(t_vec3 v1, t_vec3 v2);
 t_vec3	ft_cross_product(t_vec3 v1, t_vec3 v2);
 t_vec3	ft_make_nomalvec(t_vec3 v);
 double	ft_v_d_len(t_vec3 v);
-t_vec3	ft_set_vecele(t_vec3 v, double x, double y, double z);
+void	ft_set_vecele(t_vec3 *v, double x, double y, double z);
 
 t_cam	ft_screan_base(t_cam cam);
 t_cam	ft_screan_base_normal(t_cam cam);
-t_vec3	ft_make_ray(t_cam cam, int x, int y, int widht, int hight);
+t_vec3	ft_make_ray(t_cam cam, double  x, double y, double widht, double hight);
 
-int		make_sphere(t_cam cam, t_sp sp, int x, int y, int width, int hight);
+int		make_sphere(t_cam cam, t_sp sp, double x, double y, double width, double hight);
 
+
+
+void	ft_put_vector(t_vec3 v);
 #endif

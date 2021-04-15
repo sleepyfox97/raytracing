@@ -1,4 +1,4 @@
-#include "./test.h"
+#include "./ft_test.h"
 
 t_vec3	ft_linear_transform(t_vec3 v1, t_vec3 v2, double a, double b)
 {
