@@ -26,18 +26,18 @@ int main()
 	t_cam	cam;
 	t_sp	sp;
 
-	cam.p_cam.x = -1;
+	cam.p_cam.x = 0;
 	cam.p_cam.y = 0;
 	cam.p_cam.z = 0;
 	cam.r_cam.x = 1;
-	cam.r_cam.y = 0.2;
-	cam.r_cam.z = -0.2;
+	cam.r_cam.y = 0;
+	cam.r_cam.z = 0.2;
 	cam.r_cam = ft_make_unitvec(cam.r_cam);
 	cam.fov = M_PI / 4;
 	cam.p_to_sc = ft_linear_transform(cam.r_cam, cam.r_cam, (500 / (2 * tan(cam.fov / 2))), 0);
 	sp.sp_c.x = 100;
 	sp.sp_c.y = 0;
-	sp.sp_c.z = 0;
+	sp.sp_c.z = 20;
 	sp.r = 30;
 
 
@@ -53,7 +53,7 @@ int main()
 		j = 0;
 		while (j < 500)
 		{
-			mlx_pixel_put(mlx_ptr, win_ptr, i, j, make_sphere(cam, sp, i - 250, (-1) * (j - 250)));
+			mlx_pixel_put(mlx_ptr, win_ptr, i, j, make_sphere(cam, sp, i - 250, (-1)*(j - 250)));
 			j++;
 		}
 		i++;
