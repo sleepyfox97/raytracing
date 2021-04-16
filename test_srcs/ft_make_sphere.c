@@ -53,7 +53,7 @@ int main()
 		j = 0;
 		while (j < 500)
 		{
-			mlx_pixel_put(mlx_ptr, win_ptr, i, j, make_sphere(cam, sp, i - 250, j - 250));
+			mlx_pixel_put(mlx_ptr, win_ptr, i, j, make_sphere(cam, sp, i - 250, (-1) * (j - 250)));
 			j++;
 		}
 		i++;
