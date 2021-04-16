@@ -19,10 +19,9 @@ t_cam	ft_make_screan_base(t_cam cam)
 		cam.s_b2 = ft_set_vecele(0, 0, 1);
 	else
 	{
-		cam.s_b2 = ft_cross_product(cam.s_b1, cam.r_cam);
-		// if (cam.r_cam.x == cam.r_cam.y)
-		// 	cam.s_b2.x = 2;
-		//cam.s_b2 = ft_gramschmidt_2(cam.r_cam, cam.s_b1, cam.s_b2);
+		if (cam.r_cam.x == cam.r_cam.y)
+			cam.s_b2.x = 2;
+		cam.s_b2 = ft_gramschmidt_2(cam.r_cam, cam.s_b1, cam.s_b2);
 	}
 	cam.s_b1 = ft_make_unitvec(cam.s_b1);
 	cam.s_b2 = ft_make_unitvec(cam.s_b2);
