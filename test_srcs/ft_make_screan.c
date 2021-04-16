@@ -18,49 +18,15 @@ t_cam	ft_make_screan_base(t_cam cam)
 	if (cam.r_cam.z == 0)
 		cam.s_b2 = ft_set_vecele(0, 0, 1);
 	else
-	{
 		cam.s_b2 = ft_cross_product(cam.s_b1, cam.r_cam);
-		// if (cam.r_cam.x == cam.r_cam.y)
-		// 	cam.s_b2.x = 2;
-		//cam.s_b2 = ft_gramschmidt_2(cam.r_cam, cam.s_b1, cam.s_b2);
-	}
 	cam.s_b1 = ft_make_unitvec(cam.s_b1);
 	cam.s_b2 = ft_make_unitvec(cam.s_b2);
 	return (cam);
 }
 
-// t_cam	ft_make_screan_base(t_cam cam)
-// {
-// 	cam.s_b1 = ft_set_vecele(1, 1, 0);
-// 	cam.s_b2 = ft_set_vecele(1, 1, 3);
-// 	if (cam.r_cam.x == 0)
-// 		cam.s_b1 = ft_set_vecele(1, 0, 0);
-// 	else if (cam.r_cam.y == 0)
-// 		cam.s_b1 = ft_set_vecele(0, 1, 0);
-// 	else
-// 		cam.s_b1 = ft_gramschmidt_1(cam.r_cam, cam.s_b1);
-// 	if (cam.r_cam.z == 0)
-// 		cam.s_b2 = ft_set_vecele(0, 0, 1);
-// 	else
-// 	{
-// 		if (cam.r_cam.x == cam.r_cam.y)
-// 			cam.s_b2.x = 2;
-// 		cam.s_b2 = ft_gramschmidt_2(cam.r_cam, cam.s_b1, cam.s_b2);
-// 	}
-// 	cam.s_b1 = ft_make_unitvec(cam.s_b1);
-// 	cam.s_b2 = ft_make_unitvec(cam.s_b2);
-// 	return (cam);
-// }
-
 //to get p_to_sc vector, you only do following contents.
-//
 //t_vec3 p_to_sc;
 //p_to_sc = ft_linear_transform(r_cam, r_cam,(width/(2*tan(FOV/2))), 0);
-//
-//
-//スクリーン平面のしきから，平面上のスクリーン原点ではない，ｚ座標が等しい転を取る．
-//その点までの，スクリーン平面空の点を取る，
-//
 //
 
 t_vec3	ft_make_ray(t_cam cam, double x, double y)
@@ -73,34 +39,34 @@ t_vec3	ft_make_ray(t_cam cam, double x, double y)
 	return (ray_vec);
 }
 
-int	main()
-{
-	t_cam	cam;
-	t_vec3 v;
+// int	main()
+// {
+// 	t_cam	cam;
+// 	t_vec3 v;
 
-	cam.p_cam.x = 0;
-	cam.p_cam.y = 0;
-	cam.p_cam.z = 0;
-	cam.r_cam.x = 0;
-	cam.r_cam.y = 1;
-	cam.r_cam.z = 1;
-	cam.r_cam = ft_make_unitvec(cam.r_cam);
-	cam.fov = M_PI / 4;
-	double width = 500;
-	cam = ft_make_screan_base(cam);
-	printf("cam.s_b1.x=%lf  cam.s_b1.y=%lf  cam.s_b1.z=%lf\n\n", cam.s_b1.x, cam.s_b1.y, cam.s_b1.z);
-	printf("cam.s_b2.x=%lf  cam.s_b2.y=%lf  cam.s_b2.z=%lf\n\n", cam.s_b2.x, cam.s_b2.y, cam.s_b2.z);
+// 	cam.p_cam.x = 0;
+// 	cam.p_cam.y = 0;
+// 	cam.p_cam.z = 0;
+// 	cam.r_cam.x = 0;
+// 	cam.r_cam.y = ;
+// 	cam.r_cam.z = 1;
+// 	cam.r_cam = ft_make_unitvec(cam.r_cam);
+// 	cam.fov = M_PI / 4;
+// 	double width = 500;
+// 	cam = ft_make_screan_base(cam);
+// 	printf("cam.s_b1.x=%lf  cam.s_b1.y=%lf  cam.s_b1.z=%lf\n\n", cam.s_b1.x, cam.s_b1.y, cam.s_b1.z);
+// 	printf("cam.s_b2.x=%lf  cam.s_b2.y=%lf  cam.s_b2.z=%lf\n\n", cam.s_b2.x, cam.s_b2.y, cam.s_b2.z);
 
-	double b1_b2 = ft_inner_product(cam.s_b1, cam.s_b2);
-	double b1_cam = ft_inner_product(cam.s_b1, cam.r_cam);
-	double b2_cam = ft_inner_product(cam.s_b2, cam.r_cam);
-	printf("b1_b2=%lf  b1_cam=%lf  b2_cam=%lf\n",b1_b2, b1_cam, b2_cam);
+// 	double b1_b2 = ft_inner_product(cam.s_b1, cam.s_b2);
+// 	double b1_cam = ft_inner_product(cam.s_b1, cam.r_cam);
+// 	double b2_cam = ft_inner_product(cam.s_b2, cam.r_cam);
+// 	printf("b1_b2=%lf  b1_cam=%lf  b2_cam=%lf\n",b1_b2, b1_cam, b2_cam);
 
-	cam.p_to_sc = ft_linear_transform(cam.r_cam, cam.r_cam, (width / (2 * tan(cam.fov / 2))), 0);
-	v = ft_make_ray(cam, 0, 0);
-	printf("v.x=%lf\nv.y=%lf\nv.z=%lf\n", v.x, v.y,v.z);
-	return (0);
-}
+// 	cam.p_to_sc = ft_linear_transform(cam.r_cam, cam.r_cam, (width / (2 * tan(cam.fov / 2))), 0);
+// 	v = ft_make_ray(cam, 0, 0);
+// 	printf("v.x=%lf\nv.y=%lf\nv.z=%lf\n", v.x, v.y,v.z);
+// 	return (0);
+// }
 	//cam.r_cam.y == 0の時は，y軸方向にscrean平面のベクトルが一本立ってないとおかしい．
 	//printf("%lf  %lf  %lf\n", v_cs.x, v_cs.y , v_cs.z);
 	// v_b.x = 1;
