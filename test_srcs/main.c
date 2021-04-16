@@ -16,8 +16,8 @@ int main()
 	cam.p_cam.y = 0;
 	cam.p_cam.z = 0;
 	cam.r_cam.x = 1;
-	cam.r_cam.y = 0.1;
-	cam.r_cam.z = -0.1;
+	cam.r_cam.y = 0;
+	cam.r_cam.z = 0;
 	cam.r_cam = ft_make_unitvec(cam.r_cam);
 	cam.fov = M_PI / 4;
 	cam.p_to_sc = ft_linear_transform(cam.r_cam, cam.r_cam, ((double)width / (2 * tan(cam.fov / 2))), 0);
@@ -27,6 +27,9 @@ int main()
 	sp.r = 30;
 	sp.color = (195 << 16) + (85 << 8) + (200);
 
+	light.l_p.x = 70;
+	light.l_p.y = 10;
+	light.l_p.z = 200;
 
 	double	*t = (double *)malloc(sizeof(double) * (width * hight));
 	int		*color = (int *)malloc(sizeof(int) * (width * hight));
@@ -38,14 +41,20 @@ int main()
 
 	//カメラの初期設定ゾーン
 	cam = ft_make_screan_base(cam);
+
+	//lightの初期設定ゾーン
+	light.r = 0.9;
+	light.c_to_l = ft_linear_transform(light.l_p, sp.sp_c, 1, -1);
+	light.c_to_l = ft_make_unitvec(light.c_to_l);
 	i = 0;
 	while (i < width)
 	{
 		j = 0;
 		while (j < hight)
 		{
-			color[i * hight + j] = make_sphere(cam, sp, i - width / 2, (-1)*(j - hight / 2), &(t[i * hight + j]));
-			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j]);
+			color[i * hight + j] = make_sphere(&cam, sp, i - width / 2, (-1)*(j - hight / 2), &(t[i * hight + j]));
+			ft_put_vector(cam.v_ray);
+			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j]);
 			j++;
 		}
 		i++;

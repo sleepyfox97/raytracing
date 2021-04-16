@@ -26,7 +26,7 @@ typedef struct	s_cam
 	t_vec3	s_b1;
 	t_vec3	s_b2;
 	t_vec3	p_to_sc;
-	t_vec3	v_ray;
+	t_vec3	v_ray; // いる気がしたけど，いらない
 }	t_cam;
 
 typedef struct	s_sp
@@ -41,6 +41,7 @@ typedef struct	s_light
 	t_vec3	l_p;
 	t_vec3	l_rbg;
 	double	r;
+	t_vec3	c_to_l;
 }	t_light;
 
 //p_cam:place of the camera;
@@ -60,9 +61,9 @@ t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
 t_cam	ft_make_screan_base(t_cam cam);
 t_vec3	ft_make_ray(t_cam cam, double  x, double y);
 
-int		make_sphere(t_cam cam, t_sp sp, double x, double y, double *t);
+int		make_sphere(t_cam *cam, t_sp sp, double x, double y, double *t);
 
-
+int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, double color);
 
 void	ft_put_vector(t_vec3 v);
 #endif
