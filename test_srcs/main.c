@@ -27,9 +27,11 @@ int main()
 	sp.r = 30;
 	sp.color = (195 << 16) + (85 << 8) + (200);
 
-	light.l_p.x = 70;
-	light.l_p.y = 10;
-	light.l_p.z = 200;
+	light.l_p.x = 110;
+	light.l_p.y = 30;
+	light.l_p.z = 10;
+	light.color = (195 << 16) + (85 << 8) + (200);
+	light.r = 0.2;
 
 	double	*t = (double *)malloc(sizeof(double) * (width * hight));
 	int		*color = (int *)malloc(sizeof(int) * (width * hight));
@@ -54,7 +56,7 @@ int main()
 		{
 			color[i * hight + j] = make_sphere(&cam, sp, i - width / 2, (-1)*(j - hight / 2), &(t[i * hight + j]));
 			// ft_put_vector(cam.v_ray);
-			// color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j]);
+			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j]);
 			j++;
 		}
 		i++;

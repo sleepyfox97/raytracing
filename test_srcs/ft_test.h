@@ -39,7 +39,7 @@ typedef struct	s_sp
 typedef struct	s_light
 {
 	t_vec3	l_p;
-	t_vec3	l_rbg;
+	int		color;
 	double	r;
 	t_vec3	c_to_l;
 }	t_light;
@@ -63,7 +63,14 @@ t_vec3	ft_make_ray(t_cam cam, double  x, double y);
 
 int		make_sphere(t_cam *cam, t_sp sp, double x, double y, double *t);
 
-int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, double color);
-
 void	ft_put_vector(t_vec3 v);
+
+int	ft_get_rgb(int color, char c);
+
+int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color);
+int	ft_dr_r(int color, t_light light, double cos);
+int	ft_dr_g(int color, t_light light, double cos);
+int	ft_dr_b(int color, t_light light, double cos);
+
+
 #endif

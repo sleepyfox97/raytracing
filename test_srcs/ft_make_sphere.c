@@ -20,6 +20,6 @@ int		make_sphere(t_cam *cam, t_sp sp, double x, double y, double *t)
 		return (sp.color);
 	}
 	*t = 0;
-	return (0);
+	return (10000);
 }
 
