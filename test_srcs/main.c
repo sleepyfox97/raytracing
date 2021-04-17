@@ -53,8 +53,8 @@ int main()
 		while (j < hight)
 		{
 			color[i * hight + j] = make_sphere(&cam, sp, i - width / 2, (-1)*(j - hight / 2), &(t[i * hight + j]));
-			ft_put_vector(cam.v_ray);
-			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j]);
+			// ft_put_vector(cam.v_ray);
+			// color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j]);
 			j++;
 		}
 		i++;
