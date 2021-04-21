@@ -8,6 +8,7 @@ int main()
 	t_cam	cam;
 	t_sp	sp;
 	t_light	light;
+	t_al	al;
 
 	int width = 700;
 	int hight = 700;
@@ -36,6 +37,9 @@ int main()
 	double	*t = (double *)malloc(sizeof(double) * (width * hight));
 	int		*color = (int *)malloc(sizeof(int) * (width * hight));
 
+	al.color = (255 << 16) + (255 << 8) + (255);
+	al.r = 0.9;
+
 	void *mlx_ptr;
 	void *win_ptr;
 	mlx_ptr = mlx_init();
@@ -46,6 +50,7 @@ int main()
 
 	//lightの初期設定ゾーン
 	light.c_to_l = ft_linear_transform(light.l_p, cam.p_cam, 1, -1);//カメラからライトへのベクトル
+	//sp.color = ft_ambient_light(sp, al); ここで，更新すると良くない．計算量を減らすことを考えるなら，sp構造体の中に別の形でもっとくのがよさそう
 	i = 0;
 	while (i < width)
 	{

@@ -45,6 +45,12 @@ typedef struct	s_light
 	t_vec3	c_to_l;//いらなそう
 }	t_light;
 
+typedef struct s_al
+{
+	double	r;
+	int		color;
+}				t_al;
+
 //p_cam:place of the camera;
 //r_cam:ray of the camera;
 
@@ -68,10 +74,11 @@ void	ft_put_vector(t_vec3 v);
 
 int	ft_get_rgb(int color, char c);
 
-int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t_vec3 v);
-int	ft_dr_r(int color, t_light light, double cos);
-int	ft_dr_g(int color, t_light light, double cos);
-int	ft_dr_b(int color, t_light light, double cos);
 
+int	ft_ambient_light(t_sp sp, t_al al);
+int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t_vec3 v);
+int	ft_dr_r(int color, int lcolor, double cos);
+int	ft_dr_g(int color, int lcolor, double cos);
+int	ft_dr_b(int color, int lcolor, double cos);
 
 #endif

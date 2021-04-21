@@ -19,46 +19,45 @@ int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t
 	v2 = ft_linear_transform(cam.v_ray, light.c_to_l, (-1) * t, 1);//カメラから，ライトまでのベクトルから，カメラから交点までのベクトルを引いてる
 	v2 = ft_make_unitvec(v2);//規格化
 	tmp = ft_inner_product(v1, v2);
-	printf("tmp=%lf\n",tmp);
 	if (tmp < 0)
 		return (0);
-	color = ((ft_dr_r(color, light, tmp) << 16)| (ft_dr_r(color, light, tmp) << 8)| ft_dr_r(color, light, tmp));
+	color = ((ft_dr_r(color, light.color, tmp * light.r) << 16)| (ft_dr_r(color, light.color, tmp * light.r) << 8)| ft_dr_r(color, light.color, tmp * light.r));
 	return ((int)color);
 }
 
-int	ft_dr_r(int color, t_light light, double cos)
+int	ft_dr_r(int color1, int lcolor, double cos)
 {
 	double r1;
 	double r2;
 	double	re_c;
 
-	r1 = (double)ft_get_rgb(color, 'r');
-	r2 = (double)ft_get_rgb(light.color, 'r');
-	re_c = (r1 / 255) * (r1 / 255) * cos * 255 * light.r ;
+	r1 = (double)ft_get_rgb(color1, 'r');
+	r2 = (double)ft_get_rgb(lcolor, 'r');
+	re_c = (r1 / 255) * (r1 / 255) * cos * 255;
 	return ((int)re_c);
 }
 
-int	ft_dr_g(int color, t_light light, double cos)
+int	ft_dr_g(int color, int lcolor, double cos)
 {
 	double g1;
 	double g2;
 	double re_c;
 
 	g1 = (double)ft_get_rgb(color, 'g');
-	g2 = (double)ft_get_rgb(light.color, 'g');
-	re_c = (g1 / 255) * (g2 / 255) *cos * 255 * light.r ;
+	g2 = (double)ft_get_rgb(lcolor, 'g');
+	re_c = (g1 / 255) * (g2 / 255) *cos * 255;
 	return ((int)re_c);
 }
 
-int	ft_dr_b(int color, t_light light, double cos)
+int	ft_dr_b(int color, int lcolor, double cos)
 {
 	double b1;
 	double b2;
 	double re_c;
 
 	b1 = (double)ft_get_rgb(color, 'b');
-	b2 = (double)ft_get_rgb(light.color, 'b');
-	re_c = (b1 / 255)  * (b2 / 255) *cos * 255 * light.r;
+	b2 = (double)ft_get_rgb(lcolor, 'b');
+	re_c = (b1 / 255)  * (b2 / 255) *cos * 255;
 	return ((int)re_c);
 }
 
