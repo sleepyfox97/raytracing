@@ -75,10 +75,12 @@ void	ft_put_vector(t_vec3 v);
 int	ft_get_rgb(int color, char c);
 
 
-int	ft_ambient_light(t_sp sp, t_al al);
+int	ft_ambient_light(t_sp sp, t_al al, int  color);
 int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t_vec3 v);
 int	ft_dr_r(int color, int lcolor, double cos);
 int	ft_dr_g(int color, int lcolor, double cos);
 int	ft_dr_b(int color, int lcolor, double cos);
 
+double	ft_max(double a, double b);
+double	ft_min(double a, double b);
 #endif

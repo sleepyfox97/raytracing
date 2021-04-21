@@ -29,16 +29,16 @@ int main()
 	sp.color = (195 << 16) + (85 << 8) + (200);
 	sp.cam_to_s = ft_linear_transform(sp.sp_c, cam.p_cam, 1, -1); //カメラから球の中心へのベクトル(カメラが変わるごとに更新の必要あり)
 
-	light.l_p.x = 50;
-	light.l_p.y = 50;
-	light.l_p.z = 50;
+	light.l_p.x = 25;
+	light.l_p.y = 0;
+	light.l_p.z = 25;
 	light.color = (100 << 16) + (100 << 8) + (100);
 	light.r = 0.8;
 	double	*t = (double *)malloc(sizeof(double) * (width * hight));
 	int		*color = (int *)malloc(sizeof(int) * (width * hight));
 
 	al.color = (255 << 16) + (255 << 8) + (255);
-	al.r = 0.9;
+	al.r = 0.2;
 
 	void *mlx_ptr;
 	void *win_ptr;
@@ -61,6 +61,8 @@ int main()
 			//ft_put_vector(cam.v_ray);
 			//printf("t=%lf",t[i * hight + j]);
 			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j], sp.cam_to_s);
+			if (t[i * hight + j] != 0)
+				color[i * hight + j] = ft_ambient_light(sp, al, color[i * hight + j]);
 			j++;
 		}
 		i++;

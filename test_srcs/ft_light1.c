@@ -9,7 +9,9 @@ int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t
 {
 	t_vec3	v1;
 	t_vec3	v2;
-	double	tmp; //変数名考え直す
+	t_vec3	v3;
+	double	cos1; //変数名考え直す
+	double	cos2;
 
 	if (t == 0)
 		return (color);
@@ -18,10 +20,16 @@ int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t
 	//交点からlightへの単位ベクトルをつくる．
 	v2 = ft_linear_transform(cam.v_ray, light.c_to_l, (-1) * t, 1);//カメラから，ライトまでのベクトルから，カメラから交点までのベクトルを引いてる
 	v2 = ft_make_unitvec(v2);//規格化
-	tmp = ft_inner_product(v1, v2);
-	if (tmp < 0)
+	cos1 = ft_inner_product(v1, v2);
+	if (cos1 < 0)
 		return (0);
-	color = ((ft_dr_r(color, light.color, tmp * light.r) << 16)| (ft_dr_r(color, light.color, tmp * light.r) << 8)| ft_dr_r(color, light.color, tmp * light.r));
+	//鏡面反射の実装
+	v3 = ft_linear_transform(v1, v2, -2 * cos1, 1);
+	v3 = ft_make_unitvec(v3);
+	cos2 = ft_inner_product(v3, ft_make_unitvec(cam.v_ray));
+	cos2 = pow(cos2, 10);//pow関数はmath.hの中にいる累乗を可能にする関数
+	cos1 = ft_max(cos1, cos2) * light.r;
+	color = ((ft_dr_r(color, light.color, cos1) << 16)| (ft_dr_r(color, light.color, cos1) << 8)| ft_dr_r(color, light.color, cos1));
 	return ((int)color);
 }
 
