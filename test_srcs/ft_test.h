@@ -26,7 +26,7 @@ typedef struct	s_cam
 	t_vec3	s_b1;
 	t_vec3	s_b2;
 	t_vec3	p_to_sc;
-	t_vec3	v_ray; // いる気がしたけど，いらない
+	t_vec3	v_ray; // いる気がしたけど，いらないと思ったけどいる？
 }	t_cam;
 
 typedef struct	s_sp
@@ -34,6 +34,7 @@ typedef struct	s_sp
 	t_vec3	sp_c;
 	int		color;
 	double	r;
+	t_vec3	cam_to_s;
 }	t_sp;
 
 typedef struct	s_light
@@ -41,7 +42,7 @@ typedef struct	s_light
 	t_vec3	l_p;
 	int		color;
 	double	r;
-	t_vec3	c_to_l;
+	t_vec3	c_to_l;//いらなそう
 }	t_light;
 
 //p_cam:place of the camera;
@@ -67,7 +68,7 @@ void	ft_put_vector(t_vec3 v);
 
 int	ft_get_rgb(int color, char c);
 
-int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color);
+int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t_vec3 v);
 int	ft_dr_r(int color, t_light light, double cos);
 int	ft_dr_g(int color, t_light light, double cos);
 int	ft_dr_b(int color, t_light light, double cos);

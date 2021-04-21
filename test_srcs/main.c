@@ -26,13 +26,13 @@ int main()
 	sp.sp_c.z = 0;
 	sp.r = 30;
 	sp.color = (195 << 16) + (85 << 8) + (200);
+	sp.cam_to_s = ft_linear_transform(sp.sp_c, cam.p_cam, 1, -1); //カメラから球の中心へのベクトル(カメラが変わるごとに更新の必要あり)
 
-	light.l_p.x = 110;
-	light.l_p.y = 30;
-	light.l_p.z = 10;
-	light.color = (195 << 16) + (85 << 8) + (200);
-	light.r = 0.2;
-
+	light.l_p.x = 50;
+	light.l_p.y = 50;
+	light.l_p.z = 50;
+	light.color = (100 << 16) + (100 << 8) + (100);
+	light.r = 0.8;
 	double	*t = (double *)malloc(sizeof(double) * (width * hight));
 	int		*color = (int *)malloc(sizeof(int) * (width * hight));
 
@@ -45,9 +45,7 @@ int main()
 	cam = ft_make_screan_base(cam);
 
 	//lightの初期設定ゾーン
-	light.r = 0.9;
-	light.c_to_l = ft_linear_transform(light.l_p, sp.sp_c, 1, -1);
-	light.c_to_l = ft_make_unitvec(light.c_to_l);
+	light.c_to_l = ft_linear_transform(light.l_p, cam.p_cam, 1, -1);//カメラからライトへのベクトル
 	i = 0;
 	while (i < width)
 	{
@@ -55,8 +53,9 @@ int main()
 		while (j < hight)
 		{
 			color[i * hight + j] = make_sphere(&cam, sp, i - width / 2, (-1)*(j - hight / 2), &(t[i * hight + j]));
-			// ft_put_vector(cam.v_ray);
-			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j]);
+			//ft_put_vector(cam.v_ray);
+			//printf("t=%lf",t[i * hight + j]);
+			color[i * hight + j] = ft_diffuse_reflection(cam, light, t[i * hight + j], color[i * hight + j], sp.cam_to_s);
 			j++;
 		}
 		i++;

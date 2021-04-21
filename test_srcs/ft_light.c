@@ -1,16 +1,28 @@
 #include "./ft_test.h"
 
-int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color)
+
+//純粋にベクトル計算を間違えてそう．
+//反射が起こるのは，rayと物体との交点においてである．
+//ｖはカメラから球の中心へのベクトル．
+
+int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t_vec3 v)
 {
-	t_vec3	v_n;
+	t_vec3	v1;
+	t_vec3	v2;
 	double	tmp; //変数名考え直す
 
-	v_n = ft_linear_transform(cam.v_ray, cam.p_to_sc, t, -1);
-	v_n = ft_make_unitvec(v_n);
-	tmp = ft_inner_product(v_n, light.c_to_l);
-	if (tmp < 0)
+	if (t == 0)
 		return (color);
-	color = (ft_dr_r(color, light, tmp) << 16)| (ft_dr_r(color, light, tmp) << 8)| ft_dr_r(color, light, tmp);
+	v1 = ft_linear_transform(cam.v_ray, v, t, -1);//カメラから交点までのベクトルから，カメラから球の中心までのベクトルを引いてる
+	v1 = ft_make_unitvec(v1);	//規格化
+	//交点からlightへの単位ベクトルをつくる．
+	v2 = ft_linear_transform(cam.v_ray, light.c_to_l, (-1) * t, 1);//カメラから，ライトまでのベクトルから，カメラから交点までのベクトルを引いてる
+	v2 = ft_make_unitvec(v2);//規格化
+	tmp = ft_inner_product(v1, v2);
+	printf("tmp=%lf\n",tmp);
+	if (tmp < 0)
+		return (0);
+	color = ((ft_dr_r(color, light, tmp) << 16)| (ft_dr_r(color, light, tmp) << 8)| ft_dr_r(color, light, tmp));
 	return ((int)color);
 }
 
@@ -22,7 +34,7 @@ int	ft_dr_r(int color, t_light light, double cos)
 
 	r1 = (double)ft_get_rgb(color, 'r');
 	r2 = (double)ft_get_rgb(light.color, 'r');
-	re_c = (r1 / 255) * (r2 / 255) * cos * 255 * light.r ;
+	re_c = (r1 / 255) * (r1 / 255) * cos * 255 * light.r ;
 	return ((int)re_c);
 }
 
@@ -34,7 +46,7 @@ int	ft_dr_g(int color, t_light light, double cos)
 
 	g1 = (double)ft_get_rgb(color, 'g');
 	g2 = (double)ft_get_rgb(light.color, 'g');
-	re_c = (g1 / 255) * (g2 / 255) * cos * 255 * light.r ;
+	re_c = (g1 / 255) * (g2 / 255) *cos * 255 * light.r ;
 	return ((int)re_c);
 }
 
@@ -44,9 +56,9 @@ int	ft_dr_b(int color, t_light light, double cos)
 	double b2;
 	double re_c;
 
-	b1 = (double)ft_get_rgb(color, 'g');
-	b2 = (double)ft_get_rgb(light.color, 'g');
-	re_c = (b1 / 255) * (b2 / 255) * cos * 255 * light.r;
+	b1 = (double)ft_get_rgb(color, 'b');
+	b2 = (double)ft_get_rgb(light.color, 'b');
+	re_c = (b1 / 255)  * (b2 / 255) *cos * 255 * light.r;
 	return ((int)re_c);
 }
 

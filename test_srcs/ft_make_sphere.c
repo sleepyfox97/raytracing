@@ -16,10 +16,10 @@ int		make_sphere(t_cam *cam, t_sp sp, double x, double y, double *t)
 	d = b * b - a * c;
 	if (d >= 0)
 	{
-		*t = -b - sqrt(d);
+		*t = (-b - sqrt(d)) / a;
 		return (sp.color);
 	}
-	*t = 0;
+	*t = 0; //infの方がよさそう
 	return (10000);
 }
 
