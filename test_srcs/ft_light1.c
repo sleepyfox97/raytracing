@@ -1,42 +1,40 @@
 #include "./ft_test.h"
 
-
-//純粋にベクトル計算を間違えてそう．
-//反射が起こるのは，rayと物体との交点においてである．
-//ｖはカメラから球の中心へのベクトル．
-
+//cos1(difuse_reflection)に関しては，完璧．鏡面反射ゾーンにはミスあり．
+//cos2の出し，色を変える方法とうに関して，今一度確認を行う．
+//pow関数はmath.hの中にいる累乗を可能にする関数
 int	ft_diffuse_reflection(t_cam cam, t_light light, const double t, int color, t_vec3 v)
 {
 	t_vec3	v1;
 	t_vec3	v2;
 	t_vec3	v3;
-	double	cos1; //変数名考え直す
+	double	cos1;
 	double	cos2;
 
 	if (t == 0)
 		return (color);
-	v1 = ft_linear_transform(cam.v_ray, v, t, -1);//カメラから交点までのベクトルから，カメラから球の中心までのベクトルを引いてる
-	v1 = ft_make_unitvec(v1);	//規格化
-	//交点からlightへの単位ベクトルをつくる．
-	v2 = ft_linear_transform(cam.v_ray, light.c_to_l, (-1) * t, 1);//カメラから，ライトまでのベクトルから，カメラから交点までのベクトルを引いてる
-	v2 = ft_make_unitvec(v2);//規格化
+	v1 = ft_linear_transform(cam.v_ray, v, t, -1);
+	v1 = ft_make_unitvec(v1);
+	v2 = ft_linear_transform(cam.v_ray, light.c_to_l, (-1) * t, 1);
+	v2 = ft_make_unitvec(v2);
 	cos1 = ft_inner_product(v1, v2);
 	if (cos1 < 0)
 		return (0);
-	//鏡面反射の実装
+	//鏡面反射の実装 鏡になる場所が微妙にずれてるので，debug必要
 	v3 = ft_linear_transform(v1, v2, -2 * cos1, 1);
 	v3 = ft_make_unitvec(v3);
 	cos2 = ft_inner_product(v3, ft_make_unitvec(cam.v_ray));
-	cos2 = pow(cos2, 10);//pow関数はmath.hの中にいる累乗を可能にする関数
+	cos2 = pow(cos2, 10);
 	cos1 = ft_max(cos1, cos2) * light.r;
+	//もしかしたら，両方ともを同様に適応することが間違いかも・・・
 	color = ((ft_dr_r(color, light.color, cos1) << 16)| (ft_dr_r(color, light.color, cos1) << 8)| ft_dr_r(color, light.color, cos1));
 	return ((int)color);
 }
 
 int	ft_dr_r(int color1, int lcolor, double cos)
 {
-	double r1;
-	double r2;
+	double	r1;
+	double	r2;
 	double	re_c;
 
 	r1 = (double)ft_get_rgb(color1, 'r');
@@ -47,9 +45,9 @@ int	ft_dr_r(int color1, int lcolor, double cos)
 
 int	ft_dr_g(int color, int lcolor, double cos)
 {
-	double g1;
-	double g2;
-	double re_c;
+	double	g1;
+	double	g2;
+	double	re_c;
 
 	g1 = (double)ft_get_rgb(color, 'g');
 	g2 = (double)ft_get_rgb(lcolor, 'g');
@@ -59,9 +57,9 @@ int	ft_dr_g(int color, int lcolor, double cos)
 
 int	ft_dr_b(int color, int lcolor, double cos)
 {
-	double b1;
-	double b2;
-	double re_c;
+	double	b1;
+	double	b2;
+	double	re_c;
 
 	b1 = (double)ft_get_rgb(color, 'b');
 	b2 = (double)ft_get_rgb(lcolor, 'b');

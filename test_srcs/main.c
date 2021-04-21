@@ -1,6 +1,12 @@
 #include "./ft_test.h"
 
 
+//複数の球にしたときに，描画するしないの実装
+//今のcolorループを図形の数の回数分おこなう？
+//カメラの切り替えのために，色々対応
+//rtファイルの読み込み
+//
+
 int main()
 {
 	int i;
@@ -29,16 +35,16 @@ int main()
 	sp.color = (195 << 16) + (85 << 8) + (200);
 	sp.cam_to_s = ft_linear_transform(sp.sp_c, cam.p_cam, 1, -1); //カメラから球の中心へのベクトル(カメラが変わるごとに更新の必要あり)
 
-	light.l_p.x = 25;
-	light.l_p.y = 0;
-	light.l_p.z = 25;
+	light.l_p.x = 100;
+	light.l_p.y = 50;
+	light.l_p.z = 50;
 	light.color = (100 << 16) + (100 << 8) + (100);
 	light.r = 0.8;
 	double	*t = (double *)malloc(sizeof(double) * (width * hight));
 	int		*color = (int *)malloc(sizeof(int) * (width * hight));
 
 	al.color = (255 << 16) + (255 << 8) + (255);
-	al.r = 0.2;
+	al.r = 0.1;
 
 	void *mlx_ptr;
 	void *win_ptr;
@@ -50,7 +56,6 @@ int main()
 
 	//lightの初期設定ゾーン
 	light.c_to_l = ft_linear_transform(light.l_p, cam.p_cam, 1, -1);//カメラからライトへのベクトル
-	//sp.color = ft_ambient_light(sp, al); ここで，更新すると良くない．計算量を減らすことを考えるなら，sp構造体の中に別の形でもっとくのがよさそう
 	i = 0;
 	while (i < width)
 	{
@@ -67,7 +72,6 @@ int main()
 		}
 		i++;
 	}
-	//ft_diffuse_reflection(cam, t, l); //本来は，lightに関して回さないといけないので注意
 	i = 0;
 	while (i < width)
 	{
