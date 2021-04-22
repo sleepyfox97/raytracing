@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 //3:free elements.
 ft_type2(t_minirt minirt, char argv[1]);
 {
-	ft_get_info(minirt, argv[1]);
+	ft_get_info(&minirt, argv[1]);
 	//ft_show_image(minirt.light, minirt.cam, minirt.am, minirt.gob);
 	//free everything.
 }

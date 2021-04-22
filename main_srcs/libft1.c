@@ -57,15 +57,56 @@ int	ft_atol(char *s, double *result)
 	return (1);
 }
 
-int	main(int argc, char *argv[])
+size_t	ft_strlen(char *s)
 {
-	double	a;
-	double	b;
+	size_t	len;
 
-	if (argc != 3)
+	len = 0;
+	if (s == NULL)
 		return (0);
-	ft_atol(argv[1], &a);
-	ft_atof(argv[2], &b);
-	printf("a=%ld b=%.30lf\n", (long)a, b);
-	return (0);
+	while (s[len] == '\0')
+		len++;
+	return (len);
 }
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*result;
+	size_t	i;
+	size_t	j;
+
+	resule = (char *)malloc(sizeof(char) * (ft_stlen(s1) + ft_strlen(s2) + 1));
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	if (s1 == NULL)
+	{
+		while (s1[i] != '\0')
+		{
+			result[i] = s1[i];
+			i++;
+		}
+	}
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		result[i + j] = s2[j];
+		j++;
+	}
+	result[i] = '\0';
+	free(s1);
+	return (result);
+}
+
+// int	main(int argc, char *argv[])
+// {
+// 	double	a;
+// 	double	b;
+
+// 	if (argc != 3)
+// 		return (0);
+// 	ft_atol(argv[1], &a);
+// 	ft_atof(argv[2], &b);
+// 	printf("a=%ld b=%.30lf\n", (long)a, b);
+// 	return (0);
+// }
