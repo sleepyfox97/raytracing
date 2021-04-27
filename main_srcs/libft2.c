@@ -51,7 +51,7 @@ static char	*into_box(const char *s, char c, int i)
 		e = 0;
 		while (check(s[b], c) == 1)
 			b++;
-		while (check(s[b + e], c) == 0)
+		while (check(s[b + e], c) == 0 && s[b + e] != '\0')
 			e++;
 	}
 	tmp = (char *)malloc(sizeof(char) * (e + 1));
@@ -78,7 +78,7 @@ char	**ft_split(char const *s, char c)
 		box[i] = into_box(s, c, i);
 		if (box[i] == NULL)
 		{
-			ft_free(box);
+			ft_free_array(box);
 			return (NULL);
 		}
 		i++;
@@ -86,3 +86,16 @@ char	**ft_split(char const *s, char c)
 	box[i] = NULL;
 	return (box);
 }
+
+
+// int main()
+// {
+// 	char **line;
+
+// 	line = ft_split("dsafdaf\n\n1111fdaf1111gare111111", '\n');
+// 	while(*line != NULL)
+// 	{
+// 		printf("line=%s\n", *line);
+// 		line++;
+// 	}
+// }

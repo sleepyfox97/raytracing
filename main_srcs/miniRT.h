@@ -40,8 +40,8 @@ typedef struct s_cam
 	t_vec3	vsb2;
 	t_vec3	vptos;
 	t_vec3	vray;
-	t_cam	*prev;
-	t_cam	*next;
+	struct t_cam	*prev;
+	struct t_cam	*next;
 	int		*image;
 }	t_cam;
 
@@ -53,8 +53,8 @@ typedef struct s_light
 	double	r;
 	int		color;
 	t_vec3	vctol;
-	t_light	*prev;
-	t_light	*next;
+	struct t_light	*prev;
+	struct t_light	*next;
 }	t_light;
 
 typedef struct s_amblight
@@ -79,8 +79,8 @@ typedef struct s_gob
 	double	h;
 	int		color;
 	t_vec3	vctoc;
-	t_gob	*prev;
-	t_gob	*next;
+	struct t_gob	*prev;
+	struct t_gob	*next;
 }	t_gob;
 
 //perror is in stdio.h, strerror is in string.h
@@ -93,7 +93,11 @@ typedef struct s_minirt
 	t_amblight	*al;
 	int			widht;
 	int			hight;
+	char		**test;//this line for test.
 }	t_minirt;
+
+//initialize minirt struct;
+void	initialize_minirt(t_minirt *minirt);
 
 //read RTfile.
 //in read RTfile1
@@ -102,11 +106,11 @@ char	*ft_read_rtfile(int fd);
 int		ft_isobject(char *line);
 int		ft_input_info(t_minirt *minirt, char **line);
 //in read RTfile2
-int		ft_cam_input(t_cam *firstcam);//まだ
-int		ft_light_input(t_light *firstlight);//まだ
-int		ft_amblight_input(t_anblight *al);//まだ
-int		ft_windowinfo_input(t_minirt minirt);//まだ
-int		ft_object_input(t_gob *firstgob);//まだ
+int		ft_cam_input(t_cam *firstcam, char *line);
+// int		ft_light_input(t_light *firstlight);//まだ
+// int		ft_amblight_input(t_anblight *al);//まだ
+// int		ft_windowinfo_input(t_minirt minirt);//まだ
+// int		ft_object_input(t_gob *firstgob);//まだ
 //in read RTfile3
 // int		ft_input_spinfo();
 // int		ft_input_plinfo();
@@ -123,4 +127,6 @@ char	*ft_strjoin(char *s1, char *s2);
 //function in libft2
 void	ft_free_array(char **s);
 char	**ft_split(char const *s, char c);
+//function in libft3
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 #endif

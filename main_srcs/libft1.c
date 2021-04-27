@@ -64,7 +64,7 @@ size_t	ft_strlen(char *s)
 	len = 0;
 	if (s == NULL)
 		return (0);
-	while (s[len] == '\0')
+	while (s[len] != '\0')
 		len++;
 	return (len);
 }
@@ -72,29 +72,24 @@ size_t	ft_strlen(char *s)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
-	size_t	i;
-	size_t	j;
+	char	*tmp1;
+	char	*tmp2;
 
-	resule = (char *)malloc(sizeof(char) * (ft_stlen(s1) + ft_strlen(s2) + 1));
+	result = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (result == NULL)
 		return (NULL);
-	i = 0;
-	if (s1 == NULL)
+	tmp1 = s1;
+	tmp2 = result;
+	if (s1 != NULL)
 	{
-		while (s1[i] != '\0')
-		{
-			result[i] = s1[i];
-			i++;
-		}
+		while (*s1 != '\0')
+			*tmp2++ = *s1++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		result[i + j] = s2[j];
-		j++;
-	}
-	result[i] = '\0';
-	free(s1);
+	while (*s2 != '\0')
+		*tmp2++ = *s2++;
+	*tmp2 = '\0';
+	free(tmp1);
+	s1 = NULL;
 	return (result);
 }
 
@@ -109,4 +104,14 @@ char	*ft_strjoin(char *s1, char *s2)
 // 	ft_atof(argv[2], &b);
 // 	printf("a=%ld b=%.30lf\n", (long)a, b);
 // 	return (0);
+// }
+
+// int main(int argc, char *argv[])
+// {
+// 	char *tmp = malloc(6);
+
+// 	char *s = ft_strjoin(argv[1], argv[2]);
+// 	printf("%s\n", s);
+// 	// s = ft_strjoin(NULL, argv[1]);
+// 	// printf("%s\n", s);
 // }

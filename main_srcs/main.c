@@ -4,6 +4,7 @@ int main(int argc, char *argv[])
 {
 	t_minirt	minirt;
 
+	initialize_minirt(&minirt);
 	if (argc != 2 && argc != 3)
 	{
 		printf("argument error. Arguments have to be 2 or 3.\n");
