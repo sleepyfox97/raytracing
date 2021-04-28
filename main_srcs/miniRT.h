@@ -53,7 +53,6 @@ typedef struct s_light
 	double	r;
 	int		color;
 	t_vec3	vctol;
-	struct s_light	*prev;
 	struct s_light	*next;
 }	t_light;
 
@@ -90,7 +89,7 @@ typedef struct s_minirt
 	t_cam		*firstcam;
 	t_light		*firstlight;
 	t_gob		*firstgob;
-	t_amblight	*al;
+	t_amblight	al;
 	double		width;
 	double		hight;
 	char		**test;//this line for test.
@@ -100,21 +99,22 @@ typedef struct s_minirt
 void	initialize_minirt(t_minirt *minirt);
 
 //read RTfile.
-//in read RTfile1
+//in read RTfile1　読み取りができるとこまでした，read RTfile2以降の関数との組み合わせはまだ．
 int		ft_get_info(t_minirt *minirt, char *argv);
 char	*ft_read_rtfile(int fd);
 int		ft_isobject(char *line);
 int		ft_input_info(t_minirt *minirt, char **line);
-//in read RTfile2(for cam and resolution)
+//in read RTfile2(for cam and resolution) 簡単なテストはした
 int		ft_cam_imput(t_cam **firstcam, char *line);
 int		get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2);
 int		get_pv(char *line, int i, t_vec3 *v);
 int		get_fov(char *line, int i, double *fov);
 int		ft_windowinfo_input(t_minirt *minirt, char *line);
-//in read RTfile3(for light)
+//in read RTfile3(for light)テストはまだ．
+int		ft_light_input(t_light **firstlight, char *line);
+int		ft_amblight_input(t_amblight *al, char *line);
+int		ft_get_color(char *line, int i, int *color);
 
-// int		ft_light_input(t_light *firstlight);//まだ
-// int		ft_amblight_input(t_anblight *al);//まだ
 // int		ft_object_input(t_gob *firstgob);//まだ
 //in read RTfile3
 // int		ft_input_spinfo();

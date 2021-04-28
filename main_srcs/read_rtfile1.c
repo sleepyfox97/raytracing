@@ -54,19 +54,20 @@ int	ft_input_info(t_minirt *minirt, char **line)
 	{
 		j = 0;
 		if (line[i][0] == 'c')
-			j = ft_cam_input(minirt->firstcam, line[i]);
+			j = ft_cam_input(&(minirt->firstcam), line[i]);
 		else if (line[i][0] == 'l')
-			j = ft_light_input(minirt->firstlight, line[i]);
+			j = ft_light_input(&(minirt->firstlight), line[i]);
 		else if (line[i][0] == 'A')
-			j = ft_amblight_input(minirt->al, line[i]);
+			j = ft_amblight_input(&(minirt->al), line[i]);
 		else if (line[i][0] == 'R')
-			j = ft_windowinfo_input(minirt, line[i]);
+			j = ft_windowinfo_input(&minirt, line[i]);
 		else
 		{
 			j = ft_isobject(line[i]);
 			if (j > 0)
-				j = ft_object_input(minirt->firstgob, j);
+				j = ft_object_input(&(minirt->firstgob), j);
 		}
+		//RやAが二回来た場合，Cが一回も無かった場合などに対するerror処理がまだ．
 		if (j = 0)
 		{
 			//ft_free_list(minirt); ちゃんと作るの大変そう

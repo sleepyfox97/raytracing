@@ -1,16 +1,16 @@
 #include "./miniRT.h"
 
-int get_pv(char *line, int i, t_vec3 *v)
+int	get_pv(char *line, int i, t_vec3 *v)
 {
-	double x;
-	double y;
-	double z;
+	double	x;
+	double	y;
+	double	z;
 
 	i = ft_atof(line, i, &x);
-	if (i == 0 || line[i++] == '.')
+	if (i == 0 || line[i++] != ',')
 		return (0);
 	i = ft_atof(line, i, &y);
-	if (i == 0 || line[i++] == '.')
+	if (i == 0 || line[i++] != ',')
 		return (0);
 	i = ft_atof(line, i, &z);
 	if (i == 0)
@@ -39,7 +39,7 @@ int	get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2)
 	return (i);
 }
 
-int get_fov(char *line, int i, double *fov)
+int	get_fov(char *line, int i, double *fov)
 {
 	if (!ft_isspace(line[i]))
 		return (0);
@@ -49,10 +49,11 @@ int get_fov(char *line, int i, double *fov)
 	return (i);
 }
 //循環リストは，最初は双方向リストとして扱い，最後にくっつけることで実現する．
+
 int	ft_cam_imput(t_cam **firstcam, char *line)
 {
-	int i;
-	t_cam *new;
+	int		i;
+	t_cam	*new;
 
 	new = (t_cam *)malloc(sizeof(t_cam));
 	if (!new)
@@ -80,7 +81,7 @@ int	ft_cam_imput(t_cam **firstcam, char *line)
 
 int	ft_windowinfo_input(t_minirt *minirt, char *line)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	i = ft_atol(line, i, &(minirt->width));
