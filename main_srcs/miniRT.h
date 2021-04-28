@@ -40,8 +40,8 @@ typedef struct s_cam
 	t_vec3	vsb2;
 	t_vec3	vptos;
 	t_vec3	vray;
-	struct t_cam	*prev;
-	struct t_cam	*next;
+	struct s_cam	*prev; //初期化時にはNULLポインタを持たせる
+	struct s_cam	*next; //初期化時にはNULLポインタを持たsる
 	int		*image;
 }	t_cam;
 
@@ -53,8 +53,8 @@ typedef struct s_light
 	double	r;
 	int		color;
 	t_vec3	vctol;
-	struct t_light	*prev;
-	struct t_light	*next;
+	struct s_light	*prev;
+	struct s_light	*next;
 }	t_light;
 
 typedef struct s_amblight
@@ -79,8 +79,8 @@ typedef struct s_gob
 	double	h;
 	int		color;
 	t_vec3	vctoc;
-	struct t_gob	*prev;
-	struct t_gob	*next;
+	struct s_gob	*prev;
+	struct s_gob	*next;
 }	t_gob;
 
 //perror is in stdio.h, strerror is in string.h
@@ -106,7 +106,9 @@ char	*ft_read_rtfile(int fd);
 int		ft_isobject(char *line);
 int		ft_input_info(t_minirt *minirt, char **line);
 //in read RTfile2
-int		ft_cam_input(t_cam *firstcam, char *line);
+int		ft_cam_imput(t_cam **firstcam, char *line);
+int		get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2);
+int		get_pv(char *line, int i, t_vec3 *v);
 // int		ft_light_input(t_light *firstlight);//まだ
 // int		ft_amblight_input(t_anblight *al);//まだ
 // int		ft_windowinfo_input(t_minirt minirt);//まだ
@@ -120,8 +122,8 @@ int		ft_cam_input(t_cam *firstcam, char *line);
 
 //function in libft1
 int		ft_isspace(char c);
-int		ft_atof(char *s, double *result);
-int		ft_atol(char *s, double *result);
+int		ft_atol(char *s, int i, double *result);
+int		ft_atof(char *s, int i, double *result);
 size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 //function in libft2
@@ -129,4 +131,21 @@ void	ft_free_array(char **s);
 char	**ft_split(char const *s, char c);
 //function in libft3
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+t_cam	*ft_camlstlast(t_cam *lst);
+t_light	*ft_lightlstlast(t_light *lst);
+t_gob	*ft_oblstlast(t_gob *lst);
+int	ft_safe_free1(void *ptr);
+
+//vector util1
+t_vec3	ft_linear_transform(t_vec3 v1, t_vec3 v2, double a, double b);
+double	ft_inner_product(t_vec3 v1, t_vec3 v2);
+t_vec3	ft_cross_product(t_vec3 v1, t_vec3 v2);
+double	ft_v_d_len(t_vec3 v);
+t_vec3	ft_make_unitvec(t_vec3 v);
+//vector util2
+t_vec3	ft_set_vecele(double x, double y, double z);
+void	ft_put_vector(t_vec3 v);
+t_vec3	ft_gramschmidt_1(t_vec3 v1, t_vec3 v2);
+t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
+
 #endif

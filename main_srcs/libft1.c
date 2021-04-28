@@ -8,40 +8,42 @@ int	ft_isspace(char c)
 		return (0);
 }
 
-int	ft_atof(char *s, double *result)
+int	ft_atof(char *s, int i, double *result)
 {
-	double	i;
+	double	j;
 
-	i = 1;
-	if (ft_atol(s, result) == 0)
+	j = 1;
+	if (ft_atol(s, i, result) == 0)
 		return (0);
-	while (ft_isspace(*s))
-		s++;
-	if (*s == '+' || *s == '-')
-		s++;
-	while ('0' <= *s && *s <= '9')
-		s++;
-	if (*s == '.')
+	while (ft_isspace(s[i]))
+		i++;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	while ('0' <= s[i] && s[i] <= '9')
+		i++;
+	if (s[i] == '.')
 	{
-		s++;
-		while ('0' <= *(s) && *(s) <= '9')
-			*result = *result + (*(s++) - '0') * (i *= 0.1);
+		i++;
+		while ('0' <= s[i] && s[i] <= '9')
+			*result = *result + ((s[i++]) - '0') * (j *= 0.1);
 	}
-	return (1);
+	// if (*result == inf || *result == -inf)
+	// 	return (0);
+	return (i);
 }
 
-int	ft_atol(char *s, double *result)
+int	ft_atol(char *s, int i, double *result)
 {
 	long	minus;
 
 	minus = 1;
 	*result = 0;
-	while (ft_isspace(*s))
-		s++;
-	if (*s == '+' || *s == '-')
-		if (*s++ == '-')
+	while (ft_isspace(s[i]))
+		i++;
+	if (s[i] == '+' || s[i] == '-')
+		if (s[i++] == '-')
 			minus = -1;
-	while ('0' <= *s && *s <= '9')
+	while ('0' <= s[i] && s[i] <= '9')
 	{
 		if (*result > LONG_MAX / 10 && minus == 1)
 			return (0);
@@ -51,10 +53,10 @@ int	ft_atol(char *s, double *result)
 			return (0);
 		else if (*result == LONG_MAX / 10 && *s > '8' && minus == -1)
 			return (0);
-		*result = ((*s++) - '0') + (*result) * 10;
+		*result = ((s[i++]) - '0') + (*result) * 10;
 	}
 	*result = (*result) * minus;
-	return (1);
+	return (i);
 }
 
 size_t	ft_strlen(char *s)
@@ -100,8 +102,8 @@ char	*ft_strjoin(char *s1, char *s2)
 
 // 	if (argc != 3)
 // 		return (0);
-// 	ft_atol(argv[1], &a);
-// 	ft_atof(argv[2], &b);
+// 	ft_atol(argv[1], 0, &a);
+// 	ft_atof(argv[2], 0, &b);
 // 	printf("a=%ld b=%.30lf\n", (long)a, b);
 // 	return (0);
 // }
