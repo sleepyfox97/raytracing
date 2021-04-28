@@ -78,6 +78,32 @@ int	ft_cam_imput(t_cam **firstcam, char *line)
 	return (1);
 }
 
+int	ft_windowinfo_input(t_minirt *minirt, char *line)
+{
+	int i;
+
+	i = 1;
+	i = ft_atol(line, i, &(minirt->width));
+	if (i == 0)
+		return (0);
+	i = ft_atol(line, i, &(minirt->hight));
+	if (i == 0)
+		return (0);
+	if (line[i] != '\0')
+		return (0);
+	return (i);
+}
+
+// int main()
+// {
+// 	char *line = "R   510 500";
+// 	int i = 0;
+// 	t_minirt minirt;
+
+// 	i = ft_windowinfo_input(&minirt, line);
+// 	printf("%d\n%lf. %lf\n", i, minirt.width, minirt.hight);
+// }
+
 // int main()
 // {
 // 	char *line = "c   -50.0,0,20  0,..0,1 70  ";
@@ -94,5 +120,5 @@ int	ft_cam_imput(t_cam **firstcam, char *line)
 	// ft_put_vector(cam->p);
 	// ft_put_vector(cam->vd);
 	// printf("fov = %lf", cam->fov);
-}
+//}
 // えらーケースの場合は，構造体自体がつながれずに終わってるので，注意
