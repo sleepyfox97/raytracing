@@ -69,7 +69,7 @@ typedef struct s_amblight
 //use h onluy for cylinder hight.
 typedef struct s_gob
 {
-	char	type[3];
+	int		type;
 	t_vec3	p1;
 	t_vec3	p2;
 	t_vec3	p3;
@@ -115,6 +115,14 @@ int		ft_light_input(t_light **firstlight, char *line);
 int		ft_amblight_input(t_amblight *al, char *line);
 int		ft_get_color(char *line, int i, int *color);
 
+//in read RTfile4(for object main)
+int	ft_object_input(t_minirt *minirt, char *line);
+int	ft_isobject(char *line);
+int ft_sphere_input(t_gob **firstgob, char *line);
+
+
+//in read RTfile5(for each object)
+
 // int		ft_object_input(t_gob *firstgob);//まだ
 //in read RTfile3
 // int		ft_input_spinfo();
@@ -151,4 +159,6 @@ void	ft_put_vector(t_vec3 v);
 t_vec3	ft_gramschmidt_1(t_vec3 v1, t_vec3 v2);
 t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
 
+//for test
+void	print_struct_gob(t_gob *firstgob);
 #endif

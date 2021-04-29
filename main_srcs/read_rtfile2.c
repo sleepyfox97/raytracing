@@ -60,7 +60,7 @@ int	ft_cam_imput(t_cam **firstcam, char *line)
 		return (0);
 	i = 1;
 	i = get_two_vec(line, i, &(new->p), &(new->vd));
-	if (i == 0)
+	if (i == 0 || ft_v_d_len(new->vd) != 1)
 		return (ft_safe_free1(new));
 	i = get_fov(line, i, &(new->fov));
 	if (i == 0)
