@@ -2,7 +2,7 @@
 
 int	ft_object_input(t_minirt *minirt, char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	i = ft_isobject(line);
@@ -10,14 +10,14 @@ int	ft_object_input(t_minirt *minirt, char *line)
 		return (0);
 	else if (i == 1)
 		i = ft_sphere_input(&(minirt->firstgob), line);
-	// else if (i == 2)
-	// 	i = ft_plane_input(&(minirt->firstgob), line);
-	// else if (i == 3)
-	// 	i = ft_square_input(&(minirt->firstgob), line);
-	// else if (i == 4)
-	// 	i = ft_cylinder_input(&(minirt->firstgob), line);
-	// else if (i == 5)
-	// 	i = ft_triangle_input(&(minirt->firstgob), line);
+	else if (i == 2)
+		i = ft_plane_input(&(minirt->firstgob), line);
+	else if (i == 3)
+		i = ft_square_input(&(minirt->firstgob), line);
+	else if (i == 4)
+		i = ft_cylinder_input(&(minirt->firstgob), line);
+	else if (i == 5)
+		i = ft_triangle_input(&(minirt->firstgob), line);
 	if (i == 0)
 		return (0);
 	return (1);
@@ -39,10 +39,10 @@ int	ft_isobject(char *line)
 		return (0);
 }
 
-int ft_sphere_input(t_gob **firstgob, char *line)
+int	ft_sphere_input(t_gob **firstgob, char *line)
 {
-	int	i;
-	t_gob *new;
+	int		i;
+	t_gob	*new;
 
 	new = (t_gob *)malloc(sizeof(t_gob));
 	if (!new)
@@ -68,28 +68,28 @@ int ft_sphere_input(t_gob **firstgob, char *line)
 	return (1);
 }
 
+int	ft_plane_input(t_gob **firstgob, char *line)
+{
+	int		i;
+	t_gob	*new;
 
-// int ft_plane_input(t_gob **firstgob, char *line)
-// {
-// 		int	i;
-// 	t_gob *new;
-
-// 	new = (t_gob *)malloc(sizeof(t_gob));
-// 	if (!new)
-// 		return (0);
-// 	i = 1;
-// 	new->type = 2;
-// 	if (!ft_isspace(line[i]))
-// 		return (ft_safe_free1(new));
-// 	i = get_two_vec(line, i, &(new->p1), &(new->vno));
-// 	if (i == 0 || ft_v_d_len(new->vno) != 1)
-// 		return (ft_safe_free1(new));
-// 	i = ft_get_color(line, i, &(new->color));
-// 	if (i == 0 || line[i] != '\0')
-// 		return (ft_safe_free1(new));
-// 	if (*firstgob == NULL)
-// 		*firstgob = new;
-// 	else
-// 		ft_oblstlast(*firstgob)->next = new;
-// 	new->next = NULL;
-// }
+	new = (t_gob *)malloc(sizeof(t_gob));
+	if (!new)
+		return (0);
+	i = 2;
+	new->type = 2;
+	if (!ft_isspace(line[i]))
+		return (ft_safe_free1(new));
+	i = get_two_vec(line, i, &(new->p1), &(new->vno));
+	if (i == 0 || ft_v_d_len(new->vno) != 1)
+		return (ft_safe_free1(new));
+	i = ft_get_color(line, i, &(new->color));
+	if (i == 0 || line[i] != '\0')
+		return (ft_safe_free1(new));
+	if (*firstgob == NULL)
+		*firstgob = new;
+	else
+		ft_oblstlast(*firstgob)->next = new;
+	new->next = NULL;
+	return (1);
+}

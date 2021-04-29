@@ -104,32 +104,33 @@ int		ft_get_info(t_minirt *minirt, char *argv);
 char	*ft_read_rtfile(int fd);
 int		ft_isobject(char *line);
 int		ft_input_info(t_minirt *minirt, char **line);
-//in read RTfile2(for cam and resolution) 簡単なテストはした
-int		ft_cam_imput(t_cam **firstcam, char *line);
-int		get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2);
+
+//in read RTfile2(util functions to get each information)
 int		get_pv(char *line, int i, t_vec3 *v);
+int		get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2);
+int		get_three_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2, t_vec3 *v3);
 int		get_fov(char *line, int i, double *fov);
-int		ft_windowinfo_input(t_minirt *minirt, char *line);
-//in read RTfile3(for light)テストはまだ．
-int		ft_light_input(t_light **firstlight, char *line);
-int		ft_amblight_input(t_amblight *al, char *line);
 int		ft_get_color(char *line, int i, int *color);
 
-//in read RTfile4(for object main)
+//in read RTfile3(for camera, window, light)
+int		ft_cam_imput(t_cam **firstcam, char *line);
+int		ft_windowinfo_input(t_minirt *minirt, char *line);
+int		ft_light_input(t_light **firstlight, char *line);
+int		ft_amblight_input(t_amblight *al, char *line);
+
+
+//in read RTfile4(object input main, sphere and plane)
 int	ft_object_input(t_minirt *minirt, char *line);
 int	ft_isobject(char *line);
 int ft_sphere_input(t_gob **firstgob, char *line);
+int ft_plane_input(t_gob **firstgob, char *line);
 
+//in read RTfile5(square, cylinder and triangle)
+int	ft_square_input(t_gob **firstgob, char *line);
+int	ft_cylinder_input(t_gob **firstgob, char *line);
+int ft_input_SqAndCy_sub(t_gob *new, char *line, int i);
+int	ft_triangle_input(t_gob **firstgob, char *line);
 
-//in read RTfile5(for each object)
-
-// int		ft_object_input(t_gob *firstgob);//まだ
-//in read RTfile3
-// int		ft_input_spinfo();
-// int		ft_input_plinfo();
-// int		ft_input_sqinfo();
-// int		ft_input_cyinfo();
-// int		ft_input_trinfo();
 
 //function in libft1
 int		ft_isspace(char c);

@@ -12,11 +12,9 @@ int	ft_get_info(t_minirt *minirt, char *argv)
 	line = ft_read_rtfile(fd);
 	sp_line = ft_split(line, '\n');
 	if (sp_line == NULL)
-	{
-		free(line);
+		return (ft_safe_free1(sp_line));
+	if (!ft_input_info(&minirt, sp_line))
 		return (0);
-	}
-	ft_input_info(&minirt, sp_line);
 	return (1);
 }
 
@@ -76,42 +74,6 @@ int	ft_input_info(t_minirt *minirt, char **line)
 	return (1);
 }
 
-// int	ft_isobject(char *line)
-// {
-// 	if (ft_strlen(line) <= 2)
-// 		return (0);
-// 	if (line[0] == 's' && line[1] == 'p')
-// 		return (1);
-// 	else if (line[0] == 'p' && line[1] == 'l')
-// 		return (2);
-// 	else if (line[0] == 's' && line[1] == 'q')
-// 		return (3);
-// 	else if (line[0] == 'c' && line[1] == 'y')
-// 		return (4);
-// 	else if (line[0] == 't' && line[1] == 'r')
-// 		return (5);
-// 	else
-// 		return (0);
-// }
 
 
 
-
-// int main(int argc, char *argv[])
-// {
-// 	t_minirt minirt;
-// 	if(argc != 2)
-// 		return (0);
-// 	int i = 0;
-// 	i = ft_get_info(&minirt, argv[1]);
-// 	if (i != 0)
-// 	{
-// 		i = 0;
-// 		while(minirt.test[i] != NULL)
-// 		{
-// 			printf("%s\n", minirt.test[i]);
-// 			i++;
-// 		}
-// 	}
-// 	return (0);
-// }

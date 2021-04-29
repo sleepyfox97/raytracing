@@ -1,8 +1,55 @@
 #include "miniRT.h"
 
+//循環リストは，最初は双方向リストとして扱い，最後にくっつけることで実現する．
+
+int	ft_cam_imput(t_cam **firstcam, char *line)
+{
+	int		i;
+	t_cam	*new;
+
+	new = (t_cam *)malloc(sizeof(t_cam));
+	if (!new)
+		return (0);
+	i = 1;
+	i = get_two_vec(line, i, &(new->p), &(new->vd));
+	if (i == 0 || ft_v_d_len(new->vd) != 1)
+		return (ft_safe_free1(new));
+	i = get_fov(line, i, &(new->fov));
+	if (i == 0)
+		return (ft_safe_free1(new));
+	if (*firstcam == NULL)
+	{
+		*firstcam = new;
+		new->prev = NULL;
+	}
+	else
+	{
+		new->prev = ft_camlstlast(*firstcam);
+		ft_camlstlast(*firstcam)->next = new;
+	}
+	new->next = NULL;
+	return (1);
+}
+
+int	ft_windowinfo_input(t_minirt *minirt, char *line)
+{
+	int	i;
+
+	i = 1;
+	i = ft_atol(line, i, &(minirt->width));
+	if (i == 0)
+		return (0);
+	i = ft_atol(line, i, &(minirt->hight));
+	if (i == 0)
+		return (0);
+	if (line[i] != '\0')
+		return (0);
+	return (i);
+}
+
 int	ft_light_input(t_light **firstlight, char *line)
 {
-	int i;
+	int		i;
 	t_light	*new;
 
 	new = (t_light *)malloc(sizeof(t_light));
@@ -28,9 +75,9 @@ int	ft_light_input(t_light **firstlight, char *line)
 	return (1);
 }
 
-int ft_amblight_input(t_amblight *al, char *line)
+int	ft_amblight_input(t_amblight *al, char *line)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!ft_isspace(line[i]))
@@ -44,35 +91,4 @@ int ft_amblight_input(t_amblight *al, char *line)
 	return (1);
 }
 
-int	ft_get_color(char *line, int i, int *color)
-{
-	double	r;
-	double	g;
-	double	b;
 
-	i = ft_atol(line, i, &r);
-	if (i == 0 || (r < 0 && 255 < r) || line[i++] != ',')
-		return (0);
-	i = ft_atol(line, i, &g);
-	if (i == 0 || (g < 0 && 255 < g) || line[i++] != ',')
-		return (0);
-	i = ft_atol(line, i, &b);
-	if (i == 0 || (b < 0 && 255 < b))
-		return (0);
-	*color = ((int)r << 16) | ((int)g << 8) | (int)b;
-	return (i);
-}
-
-// int main()
-// {
-// 	t_minirt minirt;
-// 	char *line1 = "A           0.5        255,255,255";
-// 	char *line2 = "l       -40.0,50.0,0.0   0.6  10,0,255";
-
-// 	minirt.firstlight = NULL;
-// 	// int i = ft_amblight_input(&(minirt.al), line1);
-// 	// printf("A r = %lf color=%X\n", minirt.al.r, minirt.al.color);
-// 	int i = ft_light_input(&(minirt.firstlight), line2);
-// 	printf("i = %d\n", i);
-// 	printf("l r = %lf color=%X\n", minirt.firstlight->r, minirt.firstlight->color);
-// }

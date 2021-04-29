@@ -27,14 +27,26 @@ int	get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2)
 	if (!ft_isspace(line[i]))
 		return (0);
 	i = get_pv(line, i, v1);
-	if (i == 0)
-		return (0);
-	if (!ft_isspace(line[i]))
+	if (i == 0 || !ft_isspace(line[i]))
 		return (0);
 	i = get_pv(line, i, v2);
-	if (i == 0)
+	if (i == 0 || !ft_isspace(line[i]))
 		return (0);
+	return (i);
+}
+
+int	get_three_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2, t_vec3 *v3)
+{
 	if (!ft_isspace(line[i]))
+		return (0);
+	i = get_pv(line, i, v1);
+	if (i == 0 || !ft_isspace(line[i]))
+		return (0);
+	i = get_pv(line, i, v2);
+	if (i == 0 || !ft_isspace(line[i]))
+		return (0);
+	i = get_pv(line, i, v3);
+	if (i == 0 || !ft_isspace(line[i]))
 		return (0);
 	return (i);
 }
@@ -48,78 +60,22 @@ int	get_fov(char *line, int i, double *fov)
 		return (0);
 	return (i);
 }
-//循環リストは，最初は双方向リストとして扱い，最後にくっつけることで実現する．
 
-int	ft_cam_imput(t_cam **firstcam, char *line)
+int	ft_get_color(char *line, int i, int *color)
 {
-	int		i;
-	t_cam	*new;
+	double	r;
+	double	g;
+	double	b;
 
-	new = (t_cam *)malloc(sizeof(t_cam));
-	if (!new)
+	i = ft_atol(line, i, &r);
+	if (i == 0 || (r < 0 && 255 < r) || line[i++] != ',')
 		return (0);
-	i = 1;
-	i = get_two_vec(line, i, &(new->p), &(new->vd));
-	if (i == 0 || ft_v_d_len(new->vd) != 1)
-		return (ft_safe_free1(new));
-	i = get_fov(line, i, &(new->fov));
-	if (i == 0)
-		return (ft_safe_free1(new));
-	if (*firstcam == NULL)
-	{
-		*firstcam = new;
-		new->prev = NULL;
-	}
-	else
-	{
-		new->prev = ft_camlstlast(*firstcam);
-		ft_camlstlast(*firstcam)->next = new;
-	}
-	new->next = NULL;
-	return (1);
-}
-
-int	ft_windowinfo_input(t_minirt *minirt, char *line)
-{
-	int	i;
-
-	i = 1;
-	i = ft_atol(line, i, &(minirt->width));
-	if (i == 0)
+	i = ft_atol(line, i, &g);
+	if (i == 0 || (g < 0 && 255 < g) || line[i++] != ',')
 		return (0);
-	i = ft_atol(line, i, &(minirt->hight));
-	if (i == 0)
+	i = ft_atol(line, i, &b);
+	if (i == 0 || (b < 0 && 255 < b))
 		return (0);
-	if (line[i] != '\0')
-		return (0);
+	*color = ((int)r << 16) | ((int)g << 8) | (int)b;
 	return (i);
 }
-
-// int main()
-// {
-// 	char *line = "R   510 500";
-// 	int i = 0;
-// 	t_minirt minirt;
-
-// 	i = ft_windowinfo_input(&minirt, line);
-// 	printf("%d\n%lf. %lf\n", i, minirt.width, minirt.hight);
-// }
-
-// int main()
-// {
-// 	char *line = "c   -50.0,0,20  0,..0,1 70  ";
-// 	int i = 0;
-// 	t_cam	*cam;
-// 	t_vec3 a;
-
-// 	// cam = (t_cam *)malloc(sizeof(t_cam));
-// 	// i = get_two_vec(line, 2, &(cam->p), &(cam->vd));
-// 	cam = NULL;
-// 	i = ft_cam_imput(&cam, line);
-// 	printf("i = %d\n", i);
-// 	system("leaks a.out");
-	// ft_put_vector(cam->p);
-	// ft_put_vector(cam->vd);
-	// printf("fov = %lf", cam->fov);
-//}
-// えらーケースの場合は，構造体自体がつながれずに終わってるので，注意
