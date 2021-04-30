@@ -23,6 +23,13 @@ typedef struct s_vec3
 	double	z;
 }	t_vec3;
 
+typedef struct s_color
+{
+	double	r;
+	double	g;
+	double	b;
+}	t_color;
+
 //カメラの回転のことを考えたら，最初から，クオータニオンで持ってた方が多分いいんだけど，
 //今回は，必要になったら構造体要素に追加して，変換のプログラム書くことにする
 //camera circular struct list.
@@ -51,7 +58,7 @@ typedef struct s_light
 {
 	t_vec3	p;
 	double	r;
-	int		color;
+	t_color	color;
 	t_vec3	vctol;
 	struct s_light	*next;
 }	t_light;
@@ -61,7 +68,7 @@ typedef struct s_light
 typedef struct s_amblight
 {
 	double	r;
-	int		color;
+	t_color	color;
 	int		flag;
 }	t_amblight;
 
@@ -79,7 +86,7 @@ typedef struct s_gob
 	t_vec3	vno;
 	double	d;
 	double	h;
-	int		color;
+	t_color	color;
 	t_vec3	vctoc;
 	struct s_gob	*prev;
 	struct s_gob	*next;
@@ -116,7 +123,7 @@ int		get_pv(char *line, int i, t_vec3 *v);
 int		get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2);
 int		get_three_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2, t_vec3 *v3);
 int		get_fov(char *line, int i, double *fov);
-int		ft_get_color(char *line, int i, int *color);
+int		ft_get_color(char *line, int i, t_color *color);
 //in read RTfile3(for camera, window, light)
 int		ft_cam_input(t_cam **firstcam, char *line);
 int		ft_windowinfo_input(t_minirt *minirt, char *line);
@@ -132,6 +139,17 @@ int		ft_square_input(t_gob **firstgob, char *line);
 int		ft_cylinder_input(t_gob **firstgob, char *line);
 int		ft_input_SqAndCy_sub(t_gob *new, char *line, int i);
 int		ft_triangle_input(t_gob **firstgob, char *line);
+
+
+
+//ft_make_screan.c
+t_cam	ft_make_screan_base(t_cam cat);
+
+
+//ft_make_ray.c
+t_vec3	ft_make_ray(t_cam cam, double x, double y)
+
+
 
 //function in libft1
 int		ft_isspace(char c);
@@ -166,6 +184,8 @@ void	ft_put_vector(t_vec3 v);
 t_vec3	ft_gramschmidt_1(t_vec3 v1, t_vec3 v2);
 t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
 
+
+
 //error stdout
 void	ft_put_rtfile_error(char **line, int i);
 
@@ -175,4 +195,5 @@ void	print_window_al(t_minirt *minirt);
 void	print_struct_light(t_light *fisrt);
 void	print_struct_cam(t_cam *fisrt);
 void	print_struct_gob(t_gob *firstgob);
+void	print_color(t_color *color);
 #endif

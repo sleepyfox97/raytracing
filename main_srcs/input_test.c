@@ -20,7 +20,8 @@ void	print_window_al(t_minirt *minirt)
 	{
 		printf("\n\n\x1b[36m======this is ambient light======\033[m\n");
 		printf("ambient light ratio = %lf\n", minirt->al.r);
-		printf("color = %X\n", minirt->al.color);
+		print_color(&(minirt->al.color));
+		//printf("color = %X\n", minirt->al.color);
 	}
 	return ;
 }
@@ -33,8 +34,9 @@ void	print_struct_light(t_light *first)
 		printf("\n\x1b[33m=========This is %d light=========\033[m\n", i);
 		printf("light place \n");
 		ft_put_vector(first->p);
-		printf("light strenght ratio = %lf",first->r);
-		printf("color = %d\n", first->color);
+		printf("light strenght ratio = %lf\n",first->r);
+		print_color(&(first->color));
+		//printf("color = %d\n", first->color);
 		first = first->next;
 		i++;
 	}
@@ -72,7 +74,8 @@ void	print_struct_gob(t_gob *firstgob)
 			printf("place of center\n");
 			ft_put_vector(firstgob->p1);
 			printf("\ndiameter = %lf\n", firstgob->d);
-			printf("color = %X\n", firstgob->color);
+			print_color(&(firstgob->color));
+			//printf("color = %X\n", firstgob->color);
 		}
 		else if (firstgob->type == 2)
 		{
@@ -81,7 +84,8 @@ void	print_struct_gob(t_gob *firstgob)
 			ft_put_vector(firstgob->p1);
 			printf("\nnormalized orientation vector\n");
 			ft_put_vector(firstgob->vno);
-			printf("color = %X\n", firstgob->color);
+			print_color(&(firstgob->color));
+			//printf("color = %X\n", firstgob->color);
 		}
 		else if (firstgob->type == 3)
 		{
@@ -91,7 +95,8 @@ void	print_struct_gob(t_gob *firstgob)
 			printf("\nnormalized orientation vector\n");
 			ft_put_vector(firstgob->vno);
 			printf("\nside size = %lf\n", firstgob->d);
-			printf("color = %X\n", firstgob->color);
+			print_color(&(firstgob->color));
+			//printf("color = %X\n", firstgob->color);
 		}
 		else if (firstgob->type == 4)
 		{
@@ -102,7 +107,8 @@ void	print_struct_gob(t_gob *firstgob)
 			ft_put_vector(firstgob->vno);
 			printf("\ndiameter = %lf\n", firstgob->d);
 			printf("\nhight = %lf\n", firstgob->h);
-			printf("color = %X\n", firstgob->color);
+			print_color(&(firstgob->color));
+			//printf("color = %X\n", firstgob->color);
 		}
 		else if (firstgob->type == 5)
 		{
@@ -113,12 +119,20 @@ void	print_struct_gob(t_gob *firstgob)
 			ft_put_vector(firstgob->p2);
 			printf("coordinates of point on the square\n");
 			ft_put_vector(firstgob->p3);
-			printf("color = %X\n", firstgob->color);
+			print_color(&(firstgob->color));
+			//printf("color = %X\n", firstgob->color);
 		}
 		firstgob = firstgob->next;
 		i++;
 	}
 	return ;
+}
+
+void	print_color(t_color *color)
+{
+	printf("R : \x1b[31m%lf\x1b[39m\n", color->r);
+	printf("G : \x1b[32m%lf\x1b[39m\n", color->g);
+	printf("B : \x1b[34m%lf\x1b[39m\n", color->b);
 }
 
 // int main()

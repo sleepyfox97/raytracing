@@ -34,13 +34,10 @@ void	ft_type2(t_minirt minirt, char *argv)
 	i = 0;
 	i = ft_get_info(&minirt, argv);
 	if (i == 0)
-	{
-		//error文はfree_struct関数の前に関数作っておく．
 		return ;
-	}
-	if (i == 1)
+	else if (i == 1)
 		print_minirt_struct(&minirt);
-	//ft_show_image(minirt.light, minirt.cam, minirt.am, minirt.gob);
+	ft_show_image(minirt);
 	//free everything.
 	return ;
 }

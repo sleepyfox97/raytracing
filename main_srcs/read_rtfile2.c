@@ -61,21 +61,18 @@ int	get_fov(char *line, int i, double *fov)
 	return (i);
 }
 
-int	ft_get_color(char *line, int i, int *color)
+int	ft_get_color(char *line, int i, t_color *color)
 {
-	double	r;
-	double	g;
-	double	b;
-
-	i = ft_atol(line, i, &r);
-	if (i == 0 || (r < 0 && 255 < r) || line[i++] != ',')
+	i = ft_atol(line, i, &(color->r));
+	if (i == 0 || (color->r < 0 || 255 < color->r) || line[i++] != ','
+		|| (line[i] < '0' || '9' < line[i]))
 		return (0);
-	i = ft_atol(line, i, &g);
-	if (i == 0 || (g < 0 && 255 < g) || line[i++] != ',')
+	i = ft_atol(line, i, &(color->g));
+	if (i == 0 || (color->g < 0 || 255 < color->g) || line[i++] != ','
+		|| (line[i] < '0' || '9' < line[i]))
 		return (0);
-	i = ft_atol(line, i, &b);
-	if (i == 0 || (b < 0 && 255 < b))
+	i = ft_atol(line, i, &(color->b));
+	if (i == 0 || ((color->b) < 0 || 255 < (color->b)))
 		return (0);
-	*color = ((int)r << 16) | ((int)g << 8) | (int)b;
 	return (i);
 }
