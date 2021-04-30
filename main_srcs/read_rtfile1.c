@@ -1,6 +1,6 @@
 #include "./miniRT.h"
 
-int	ft_get_info(t_minirt *minirt, char *argv)
+int		ft_get_info(t_minirt *minirt, char *argv)
 {
 	char	*line;
 	char	**sp_line;
@@ -11,9 +11,8 @@ int	ft_get_info(t_minirt *minirt, char *argv)
 		return (0);
 	line = ft_read_rtfile(fd);
 	sp_line = ft_split(line, '\n');
-	if (sp_line == NULL)
-		return (ft_safe_free1(sp_line));
-	if (!ft_input_info(&minirt, sp_line))
+	free (line);
+	if (!ft_input_info(minirt, sp_line))
 		return (0);
 	return (1);
 }
@@ -42,38 +41,47 @@ char	*ft_read_rtfile(int fd)
 	return (line);
 }
 
-int	ft_input_info(t_minirt *minirt, char **line)
+int		ft_input_info(t_minirt *minirt, char **line)
 {
 	int	i;
 	int	j;
 
 	i = 0;
+	j = 1;
 	while(line[i] != NULL)
 	{
 		j = 0;
-		if (line[i][0] == 'c')
-			j = ft_cam_input(&(minirt->firstcam), line[i]);
-		else if (line[i][0] == 'l')
-			j = ft_light_input(&(minirt->firstlight), line[i]);
-		else if (line[i][0] == 'A')
-			j = ft_amblight_input(&(minirt->al), line[i]);
-		else if (line[i][0] == 'R')
-			j = ft_windowinfo_input(minirt, line[i]);
-		else
-			j = ft_object_input(minirt, line);
-		//RやAが二回来た場合，Cが一回も無かった場合などに対するerror処理がまだ．
-		if (j = 0)
-		{
-			//ft_free_list(minirt); ちゃんと作るの大変そう
-			ft_free_array(line);
-			return (0);
-		}
+		j = ft_switch_inputtype(minirt, line[i]);
+		if (j == 0)
+			break ;
 		i++;
+	}
+	if (j == 0)
+	{
+		ft_put_rtfile_error(line, i);
+		ft_clear_minirt(minirt);
+		ft_free_array(line);
+		return (0);
 	}
 	ft_free_array(line);
 	return (1);
 }
 
+int		ft_switch_inputtype(t_minirt *minirt, char *line)
+{
+	int j = 0;
 
-
-
+	if (line[0] == 'c' &&  line[1] == ' ')
+		j = ft_cam_input(&(minirt->firstcam), line);
+	else if (line[0] == 'l')
+		j = ft_light_input(&(minirt->firstlight), line);
+	else if (line[0] == 'A')
+		j = ft_amblight_input(&(minirt->al), line);
+	else if (line[0] == 'R')
+		j = ft_windowinfo_input(minirt, line);
+	else
+		j = ft_object_input(minirt, line);
+	if (j == 0)
+		return (0);
+	return (1);
+}

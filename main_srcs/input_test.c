@@ -1,12 +1,70 @@
 #include "./miniRT.h"
 
+void	print_minirt_struct(t_minirt *minirt)
+{
+	print_window_al(minirt);
+	print_struct_light(minirt->firstlight);
+	print_struct_cam(minirt->firstcam);
+	print_struct_gob(minirt->firstgob);
+}
+
+void	print_window_al(t_minirt *minirt)
+{
+	if (minirt->width != -1 && minirt->hight != -1)
+	{
+		printf("\x1b[36m===this is window information====\033[m\n");
+		printf("width = %lf\n", minirt->width);
+		printf("hight = %lf\n", minirt->hight);
+	}
+	if (minirt->al.flag == 1)
+	{
+		printf("\n\n\x1b[36m======this is ambient light======\033[m\n");
+		printf("ambient light ratio = %lf\n", minirt->al.r);
+		printf("color = %X\n", minirt->al.color);
+	}
+	return ;
+}
+
+void	print_struct_light(t_light *first)
+{
+	int i = 1;
+	while(first != NULL)
+	{
+		printf("\n\x1b[33m=========This is %d light=========\033[m\n", i);
+		printf("light place \n");
+		ft_put_vector(first->p);
+		printf("light strenght ratio = %lf",first->r);
+		printf("color = %d\n", first->color);
+		first = first->next;
+		i++;
+	}
+	return ;
+}
+
+void	print_struct_cam(t_cam *first)
+{
+	int i = 1;
+	while(first != NULL)
+	{
+		printf("\n\n\x1b[35m========This is %d camera=========\033[m\n", i);
+		printf("camera place \n");
+		ft_put_vector(first->p);
+		printf("\nnormalized orientation vector of camera\n");
+		ft_put_vector(first->vd);
+		printf("camera's fov = %lf\n",first->fov);
+		first = first->next;
+		i++;
+	}
+	return ;
+}
+
 
 void	print_struct_gob(t_gob *firstgob)
 {
 	int i = 1;
 	while(firstgob != NULL)
 	{
-		printf("=======This is %d object=======\n", i);
+		printf("\n\x1b[32m=======This is %d object=======\033[m\n", i);
 		printf("type = %d\n", firstgob->type);
 		if (firstgob->type == 1)
 		{
@@ -63,33 +121,33 @@ void	print_struct_gob(t_gob *firstgob)
 	return ;
 }
 
-int main()
-{
-	char *line1 = "sp     0.0,0.0,20.6         12.6   255,0,255";
-	char *line2 = "sp     0.1,0.1,0.24         99.9   31,31,31";
-	char *line3 = "pl     0.0,0.0,0.3      0.0,1,0.0   3,3,3";
-	char *line4 = "sq    0.0,0.0,0.3      0.0,1,0.0  214.412   7,7,7";
-	char *line5 = "cy    50.0,0.0,20.6      0.0,0.0,1.0  14.2   21.42  15,15,15";
-	char *line6 = "tr    50.0,0.0,20.6      0.0,0.0,1.0   0.0,0.0,20.6  127,127,127";
-	t_minirt minirt;
-	int i = 0;
+// int main()
+// {
+// 	char *line1 = "sp     0.0,0.0,20.6         12.6   255,0,255";
+// 	char *line2 = "sp     0.1,0.1,0.24         99.9   31,31,31";
+// 	char *line3 = "pl     0.0,0.0,0.3      0.0,1,0.0   3,3,3";
+// 	char *line4 = "sq    0.0,0.0,0.3      0.0,1,0.0  214.412   7,7,7";
+// 	char *line5 = "cy    50.0,0.0,20.6      0.0,0.0,1.0  14.2   21.42  15,15,15";
+// 	char *line6 = "tr    50.0,0.0,20.6      0.0,0.0,1.0   0.0,0.0,20.6  127,127,127";
+// 	t_minirt minirt;
+// 	int i = 0;
 
-	minirt.firstgob = NULL;
-	// i = ft_object_input(&minirt, line1);
-	// printf("i=%d\n", i);
-	// i = ft_object_input(&minirt, line2);
-	// printf("i=%d\n", i);
-	// i = ft_object_input(&minirt, line3);
-	// printf("i=%d\n", i);
-	// i = ft_object_input(&minirt, line4);
-	// printf("i=%d\n", i);
-	// i = ft_object_input(&minirt, line5);
-	// printf("i=%d\n", i);
-	i = ft_object_input(&minirt, line6);
-	printf("i=%d\n", i);
-	print_struct_gob(minirt.firstgob);
-	return (0);
-}
+// 	minirt.firstgob = NULL;
+// 	i = ft_object_input(&minirt, line1);
+// 	printf("i=%d\n", i);
+// 	i = ft_object_input(&minirt, line2);
+// 	printf("i=%d\n", i);
+// 	i = ft_object_input(&minirt, line3);
+// 	printf("i=%d\n", i);
+// 	i = ft_object_input(&minirt, line4);
+// 	printf("i=%d\n", i);
+// 	i = ft_object_input(&minirt, line5);
+// 	printf("i=%d\n", i);
+// 	i = ft_object_input(&minirt, line6);
+// 	printf("i=%d\n", i);
+// 	print_struct_gob(minirt.firstgob);
+// 	return (0);
+// }
 
 
 //read RTfile2

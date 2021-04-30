@@ -40,8 +40,8 @@ typedef struct s_cam
 	t_vec3	vsb2;
 	t_vec3	vptos;
 	t_vec3	vray;
-	struct s_cam	*prev; //初期化時にはNULLポインタを持たせる
-	struct s_cam	*next; //初期化時にはNULLポインタを持たsる
+	struct s_cam	*prev;
+	struct s_cam	*next;
 	int		*image;
 }	t_cam;
 
@@ -56,10 +56,13 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
+
+//flag initialize -1 first
 typedef struct s_amblight
 {
 	double	r;
 	int		color;
+	int		flag;
 }	t_amblight;
 
 //gob means geometric object.
@@ -92,18 +95,21 @@ typedef struct s_minirt
 	t_amblight	al;
 	double		width;
 	double		hight;
-	char		**test;//this line for test.
 }	t_minirt;
 
+//in main file
 //initialize minirt struct;
-void	initialize_minirt(t_minirt *minirt);
+void	ft_initialize_minirt(t_minirt *minirt);
+//if argc == 2, do this function.
+void	ft_type2(t_minirt minirt, char *argv);
+
 
 //read RTfile.
 //in read RTfile1　読み取りができるとこまでした，read RTfile2以降の関数との組み合わせはまだ．
 int		ft_get_info(t_minirt *minirt, char *argv);
 char	*ft_read_rtfile(int fd);
-int		ft_isobject(char *line);
 int		ft_input_info(t_minirt *minirt, char **line);
+int		ft_switch_inputtype(t_minirt *minirt, char *line);
 
 //in read RTfile2(util functions to get each information)
 int		get_pv(char *line, int i, t_vec3 *v);
@@ -111,26 +117,21 @@ int		get_two_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2);
 int		get_three_vec(char *line, int i, t_vec3 *v1, t_vec3 *v2, t_vec3 *v3);
 int		get_fov(char *line, int i, double *fov);
 int		ft_get_color(char *line, int i, int *color);
-
 //in read RTfile3(for camera, window, light)
-int		ft_cam_imput(t_cam **firstcam, char *line);
+int		ft_cam_input(t_cam **firstcam, char *line);
 int		ft_windowinfo_input(t_minirt *minirt, char *line);
 int		ft_light_input(t_light **firstlight, char *line);
 int		ft_amblight_input(t_amblight *al, char *line);
-
-
 //in read RTfile4(object input main, sphere and plane)
-int	ft_object_input(t_minirt *minirt, char *line);
-int	ft_isobject(char *line);
-int ft_sphere_input(t_gob **firstgob, char *line);
-int ft_plane_input(t_gob **firstgob, char *line);
-
+int		ft_object_input(t_minirt *minirt, char *line);
+int		ft_isobject(char *line);
+int		ft_sphere_input(t_gob **firstgob, char *line);
+int		ft_plane_input(t_gob **firstgob, char *line);
 //in read RTfile5(square, cylinder and triangle)
-int	ft_square_input(t_gob **firstgob, char *line);
-int	ft_cylinder_input(t_gob **firstgob, char *line);
-int ft_input_SqAndCy_sub(t_gob *new, char *line, int i);
-int	ft_triangle_input(t_gob **firstgob, char *line);
-
+int		ft_square_input(t_gob **firstgob, char *line);
+int		ft_cylinder_input(t_gob **firstgob, char *line);
+int		ft_input_SqAndCy_sub(t_gob *new, char *line, int i);
+int		ft_triangle_input(t_gob **firstgob, char *line);
 
 //function in libft1
 int		ft_isspace(char c);
@@ -147,6 +148,11 @@ t_cam	*ft_camlstlast(t_cam *lst);
 t_light	*ft_lightlstlast(t_light *lst);
 t_gob	*ft_oblstlast(t_gob *lst);
 int	ft_safe_free1(void *ptr);
+//function in libft4
+void	ft_clear_minirt(t_minirt *minirt);
+void	ft_camlstclear(t_cam *firstcam);
+void	ft_lightlstclear(t_light *firstlight);
+void	ft_oblstclear(t_gob *firstgob);
 
 //vector util1
 t_vec3	ft_linear_transform(t_vec3 v1, t_vec3 v2, double a, double b);
@@ -160,6 +166,13 @@ void	ft_put_vector(t_vec3 v);
 t_vec3	ft_gramschmidt_1(t_vec3 v1, t_vec3 v2);
 t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
 
+//error stdout
+void	ft_put_rtfile_error(char **line, int i);
+
 //for test
+void	print_minirt_struct(t_minirt *minirt);
+void	print_window_al(t_minirt *minirt);
+void	print_struct_light(t_light *fisrt);
+void	print_struct_cam(t_cam *fisrt);
 void	print_struct_gob(t_gob *firstgob);
 #endif

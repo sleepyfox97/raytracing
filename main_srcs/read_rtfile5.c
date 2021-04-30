@@ -6,7 +6,6 @@ int	ft_square_input(t_gob **firstgob, char *line)
 	t_gob	*new;
 
 	new = (t_gob *)malloc(sizeof(t_gob));
-
 	if (!new)
 		return (0);
 	i = 2;
@@ -38,6 +37,7 @@ int	ft_cylinder_input(t_gob **firstgob, char *line)
 	i = ft_input_SqAndCy_sub(new, line, i);
 	if (i == 0)
 		return (ft_safe_free1(new));
+
 	i = ft_atof(line, i, &(new->h));
 	if (i == 0 || !ft_isspace(line[i]) || (new->h) < 0)
 		return (ft_safe_free1(new));
@@ -76,7 +76,6 @@ int	ft_triangle_input(t_gob **firstgob, char *line)
 	i = 2;
 	new->type = 5;
 	i = get_three_vec(line, i, &(new->p1), &(new->p2), &(new->p3));
-	printf("i=%d\n",i);
 	if (i == 0)
 		return (ft_safe_free1(new));
 	i = ft_get_color(line, i, &(new->color));

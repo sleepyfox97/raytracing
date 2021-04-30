@@ -58,6 +58,8 @@ static char	*into_box(const char *s, char c, int i)
 	if (tmp == NULL)
 		return (NULL);
 	tmp = ft_memcpy(tmp, (s + b), e);
+	if (tmp[e - 1] == 13)
+		tmp[e - 1] = '\0';
 	tmp[e] = '\0';
 	return (tmp);
 }
