@@ -49,6 +49,7 @@ typedef struct s_cam
 	t_vec3	vray;
 	struct s_cam	*prev;
 	struct s_cam	*next;
+	double	*distance; // imageとともに，width * hightでmalloc
 	int		*image;
 }	t_cam;
 
@@ -165,7 +166,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 t_cam	*ft_camlstlast(t_cam *lst);
 t_light	*ft_lightlstlast(t_light *lst);
 t_gob	*ft_oblstlast(t_gob *lst);
-int	ft_safe_free1(void *ptr);
+int		ft_safe_free1(void *ptr);
 //function in libft4
 void	ft_clear_minirt(t_minirt *minirt);
 void	ft_camlstclear(t_cam *firstcam);
