@@ -9,10 +9,10 @@
 # include <stdint.h>
 # include <limits.h>
 
-# include <X11/Xlib.h>
-# include <sys/ipc.h>
-# include <sys/shm.h>
-# include <X11/extensions/XShm.h>
+//# include <X11/Xlib.h>
+//# include <sys/ipc.h>
+//# include <sys/shm.h>
+//# include <X11/extensions/XShm.h>
 //# include "./mlx_linux/mlx.h"
 
 //3D vector
@@ -40,6 +40,7 @@ typedef struct s_color
 //so, use pixel put to this varinable, we can see the window view.
 typedef struct s_cam
 {
+	int		cnum;
 	t_vec3	p;
 	t_vec3	vd;
 	double	fov;
@@ -142,15 +143,23 @@ int		ft_input_SqAndCy_sub(t_gob *new, char *line, int i);
 int		ft_triangle_input(t_gob **firstgob, char *line);
 
 
+//出力関係
+
+//出力計算の前準備
+int	ft_prepare_print(t_minirt *minirt);
+int	ft_cam_prepare(t_cam *firstcam, double width, double hight);
 
 //ft_make_screan.c
 t_cam	ft_make_screan_base(t_cam cat);
 
-
 //ft_make_ray.c
-t_vec3	ft_make_ray(t_cam cam, double x, double y)
+t_vec3	ft_make_ray(t_cam cam, double x, double y);
 
 
+void ft_show_image(t_minirt *minirt);
+
+
+//utility functions
 
 //function in libft1
 int		ft_isspace(char c);

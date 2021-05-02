@@ -32,7 +32,7 @@ t_cam	*ft_camlstlast(t_cam *lst)
 	return (lst);
 }
 
-t_light *ft_lightlstlast(t_light *lst)
+t_light	*ft_lightlstlast(t_light *lst)
 {
 	if (lst == NULL)
 		return (lst);
@@ -41,7 +41,7 @@ t_light *ft_lightlstlast(t_light *lst)
 	return (lst);
 }
 
-t_gob *ft_oblstlast(t_gob *lst)
+t_gob	*ft_oblstlast(t_gob *lst)
 {
 	if (lst == NULL)
 		return (lst);

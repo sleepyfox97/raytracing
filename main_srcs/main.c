@@ -36,11 +36,12 @@ void	ft_type2(t_minirt minirt, char *argv)
 		return ;
 	else if (i == 1)
 	{
+		print_minirt_struct(&minirt);
 		if(ft_prepare_print(&minirt))
 			return ft_clear_minirt(&minirt);
 		ft_print_obj(&minirt);
 		ft_show_image(minirt);
-		printf("if this comment shows, You can write good code\n")
+		printf("if this comment shows, You can write good code\n");
 	}
 	//free everything.
 	return ;

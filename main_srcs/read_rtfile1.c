@@ -1,10 +1,10 @@
 #include "./miniRT.h"
 
-int		ft_get_info(t_minirt *minirt, char *argv)
+int	ft_get_info(t_minirt *minirt, char *argv)
 {
 	char	*line;
 	char	**sp_line;
-	int 	fd;
+	int		fd;
 
 	fd = open(argv, O_RDONLY);
 	if (fd <= 0)
@@ -26,7 +26,7 @@ char	*ft_read_rtfile(int fd)
 	str = (char *)malloc(sizeof(char) * 1000);
 	line = NULL;
 	buf = 1;
-	while(buf != 0)
+	while (buf != 0)
 	{
 		buf = read(fd, str, 999);
 		str[buf] = '\0';
@@ -41,14 +41,14 @@ char	*ft_read_rtfile(int fd)
 	return (line);
 }
 
-int		ft_input_info(t_minirt *minirt, char **line)
+int	ft_input_info(t_minirt *minirt, char **line)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 1;
-	while(line[i] != NULL)
+	while (line[i] != NULL)
 	{
 		j = 0;
 		j = ft_switch_inputtype(minirt, line[i]);
@@ -67,11 +67,12 @@ int		ft_input_info(t_minirt *minirt, char **line)
 	return (1);
 }
 
-int		ft_switch_inputtype(t_minirt *minirt, char *line)
+int	ft_switch_inputtype(t_minirt *minirt, char *line)
 {
-	int j = 0;
+	int	j;
 
-	if (line[0] == 'c' &&  line[1] == ' ')
+	j = 0;
+	if (line[0] == 'c' && line[1] == ' ')
 		j = ft_cam_input(&(minirt->firstcam), line);
 	else if (line[0] == 'l')
 		j = ft_light_input(&(minirt->firstlight), line);

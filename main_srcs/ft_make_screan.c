@@ -1,6 +1,6 @@
 #include "./miniRT.h"
 
-t_cam	ft_make_screan_base(t_cam cat)
+t_cam	ft_make_screan_base(t_cam cam)
 {
 	if (cam.vd.x == 0 && cam.vd.y >= 0)
 		cam.vsb1 = ft_set_vecele(1, 0, 0);
@@ -23,3 +23,112 @@ t_cam	ft_make_screan_base(t_cam cat)
 	cam.vsb2 = ft_make_unitvec(cam.vsb2);
 	return (cam);
 }
+
+
+t_vec3	ft_make_ray(t_cam cam, double x, double y)
+{
+	t_vec3	vray;
+	t_vec3	vtmp;
+
+	vtmp = ft_linear_transform(cam.vsb1, cam.vsb2, x, y);
+	vray = ft_linear_transform(vtmp, cam.vptos, 1, 1);
+	vray = ft_make_unitvec(vray);
+	return (vray);
+}
+
+void	ft_print_obj(t_minirt *minirt)
+{
+	int i;
+	int j;
+	double x;
+	double y;
+
+	while (minirt->firstcam->next->cnum != 1)
+	{
+		i = 0;
+		while (i < minirt->width)
+		{
+			x = i - minirt->width / 2;
+			while (j < minirt->hight)
+			{
+				y = (-1) * (j - minirt->hight) / 2;
+				ft_calcu_color(minirt, x, y);
+				j++;
+			}
+			j++;
+		}
+	}
+}
+
+
+void	ft_calcu_color(t_minirt *minirt, double x, double y)
+{
+	//objectに関するwhile文を回す，
+	//objectに関するwhile文の中で，light影の判定，重なり判定を行い，色を決定
+	//出力
+}
+
+void	ft_show_image(t_minirt *minirt)
+{
+	int i;
+	int j;
+	double *c;
+	void	*mlx_ptr;
+	void	*win_ptr;
+
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, minirt->width, minirt->hight, "miniRT");
+	c = minirt->firstcam->image;
+	i = 0;
+	while (i < minirt->width)
+	{
+		j = 0;
+		while (j < minirt->hight)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, i, j, c[i * minirt->hight + j]);
+			j++;
+		}
+		i++;
+	}
+	mlx_loop(mlx_ptr);
+	return ;
+}
+// 照明が物体同士の間にある場合の処理
+
+
+// 	vtmp = ft_linear_transform(cam->p, gob->p1, 1, -1);//球の中心からカメラへのベクトル（ここの外で計算しい）
+// 	cam->vray = ft_make_ray(cam, x, y);//ft_make_sphereの外に描画時，最初にやることにする．
+
+// //vrayは単位ベクトルにしておくことで，tが常に，長さとして使用可能になる．
+
+// int	ft_make_sphere(t_cam *cam, t_gob *gob, t_vec vtmp)
+// {
+// 	double	a;
+// 	double	b;
+// 	double	c;
+// 	double	d;
+
+// 	a = ft_v_d_len(cam->vray);
+// 	b = ft_inner_product(cam->ray, vtmp);
+// 	c = ft_v_d_len(vtmp) - gob->d + gob->d / 4;//先に2で割っといて，半径にして計算量減らしてもよさそう
+// 	d = b * b - a * c;
+// 	if (d >= 0)
+// 	{
+// 		//球の色を出すべき，xｙとその時のcameraからのcam->tが分かる
+// 		//ambient lightを用いて，RGBを比較して，色の更新
+// 		//lightを用いて,RGBを比較して，色の更新(while文回して，全てのlightに関して行う)
+// 		//
+// 	}
+// }
+
+
+// int	ft_iscross_sphere(t_vec3 v1, t_gob *sphere, t_vec vtmp)
+// {
+
+// }
+
+// int	ft_iscross_plane()
+// int	ft_iscross_triangle()
+// int	ft_iscross_cylinder()
+// int	ft_iscross_square()
+

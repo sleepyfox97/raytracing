@@ -37,7 +37,6 @@ int	ft_cylinder_input(t_gob **firstgob, char *line)
 	i = ft_input_SqAndCy_sub(new, line, i);
 	if (i == 0)
 		return (ft_safe_free1(new));
-
 	i = ft_atof(line, i, &(new->h));
 	if (i == 0 || !ft_isspace(line[i]) || (new->h) < 0)
 		return (ft_safe_free1(new));
@@ -52,7 +51,7 @@ int	ft_cylinder_input(t_gob **firstgob, char *line)
 	return (1);
 }
 
-int ft_input_SqAndCy_sub(t_gob *new, char *line, int i)
+int	ft_input_SqAndCy_sub(t_gob *new, char *line, int i)
 {
 	if (!ft_isspace(line[i]))
 		return (0);

@@ -95,5 +95,3 @@ int	ft_amblight_input(t_amblight *al, char *line)
 	al->flag = 1;
 	return (1);
 }
-
-

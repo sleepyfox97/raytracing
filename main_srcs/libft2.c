@@ -2,11 +2,11 @@
 
 void	ft_free_array(char **s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s[i] != NULL)
-		free (s[i++]);
+	while (s[i] != NULL)
+		free(s[i++]);
 	free(s);
 	return ;
 }
@@ -88,7 +88,6 @@ char	**ft_split(char const *s, char c)
 	box[i] = NULL;
 	return (box);
 }
-
 
 // int main()
 // {

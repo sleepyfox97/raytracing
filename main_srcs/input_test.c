@@ -18,10 +18,9 @@ void	print_window_al(t_minirt *minirt)
 	}
 	if (minirt->al.flag == 1)
 	{
-		printf("\n\n\x1b[36m======this is ambient light======\033[m\n");
-		printf("ambient light ratio = %lf\n", minirt->al.r);
+		printf("\n\x1b[36m======this is ambient light======\033[m\n");
+		printf("ambient light ratio = \x1b[33m%lf\033[m\n", minirt->al.r);
 		print_color(&(minirt->al.color));
-		//printf("color = %X\n", minirt->al.color);
 	}
 	return ;
 }
@@ -34,9 +33,8 @@ void	print_struct_light(t_light *first)
 		printf("\n\x1b[33m=========This is %d light=========\033[m\n", i);
 		printf("light place \n");
 		ft_put_vector(first->p);
-		printf("light strenght ratio = %lf\n",first->r);
+		printf("\nlight strenght ratio = \x1b[33m%lf\033[m\n\n",first->r);
 		print_color(&(first->color));
-		//printf("color = %d\n", first->color);
 		first = first->next;
 		i++;
 	}
@@ -48,12 +46,12 @@ void	print_struct_cam(t_cam *first)
 	int i = 1;
 	while(first != NULL)
 	{
-		printf("\n\n\x1b[35m========This is %d camera=========\033[m\n", i);
+		printf("\n\x1b[35m========This is %d camera=========\033[m\n", i);
 		printf("camera place \n");
 		ft_put_vector(first->p);
 		printf("\nnormalized orientation vector of camera\n");
 		ft_put_vector(first->vd);
-		printf("camera's fov = %lf\n",first->fov);
+		printf("\ncamera's fov = %lf\n",first->fov);
 		first = first->next;
 		i++;
 	}
@@ -75,7 +73,6 @@ void	print_struct_gob(t_gob *firstgob)
 			ft_put_vector(firstgob->p1);
 			printf("\ndiameter = %lf\n", firstgob->d);
 			print_color(&(firstgob->color));
-			//printf("color = %X\n", firstgob->color);
 		}
 		else if (firstgob->type == 2)
 		{

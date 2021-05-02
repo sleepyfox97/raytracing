@@ -9,7 +9,7 @@ void	ft_clear_minirt(t_minirt *minirt)
 
 void	ft_camlstclear(t_cam *firstcam)
 {
-	t_cam *tmp;
+	t_cam	*tmp;
 
 	while (firstcam != NULL)
 	{
@@ -24,7 +24,7 @@ void	ft_camlstclear(t_cam *firstcam)
 
 void	ft_lightlstclear(t_light *firstlight)
 {
-	t_light *tmp;
+	t_light	*tmp;
 
 	while (firstlight != NULL)
 	{
@@ -38,7 +38,7 @@ void	ft_lightlstclear(t_light *firstlight)
 
 void	ft_oblstclear(t_gob *firstgob)
 {
-	t_gob *tmp;
+	t_gob	*tmp;
 
 	while (firstgob != NULL)
 	{
