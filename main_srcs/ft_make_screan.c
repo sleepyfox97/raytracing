@@ -57,16 +57,38 @@ void	ft_print_obj(t_minirt *minirt)
 			}
 			j++;
 		}
+		minirt->firstcam = minirt->firstcam->next;//この回し方は下手なきがする．
 	}
 }
 
 
-void	ft_calcu_color(t_minirt *minirt, double x, double y)
+int	ft_calcu_color(t_minirt *minirt, double x, double y)
 {
+	while (minirt->firstgob != NULL)
+	{
+		if (minirt->firstgob->type == 1)
+			ft_sp_color(minirt->firstgob, minirt, x, y);
+	}
+	//色が確定したら，colorにビット演算して，返す．
+	//objにも番号振ったら管理楽かも？
 	//objectに関するwhile文を回す，
 	//objectに関するwhile文の中で，light影の判定，重なり判定を行い，色を決定
 	//出力
 }
+
+
+ft_sp_color(t_gob *sp, t_minirt *minirt, double x, double y)
+{
+	//rayだすt出す
+	//今までのtと比較．
+	//交点のt出す，al用いて，色の更新．
+	//lightについてwhile分回す
+		//lightごとにvctolの計算，
+		//その他の物体がlightまでに邪魔をしてるかの計算
+		//lightによる拡散反射，鏡面反射の実装
+		//RGBで判断して明るければ，OK
+		//ここら辺上手に考えたら計算量減らせそう．
+}
 
 void	ft_show_image(t_minirt *minirt)
 {

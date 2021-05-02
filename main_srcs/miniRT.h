@@ -89,6 +89,7 @@ typedef struct s_gob
 	double	d;
 	double	h;
 	t_color	color;
+	t_color	tmpcolor;
 	t_vec3	vctoc;
 	struct s_gob	*prev;
 	struct s_gob	*next;
@@ -143,7 +144,7 @@ int		ft_input_SqAndCy_sub(t_gob *new, char *line, int i);
 int		ft_triangle_input(t_gob **firstgob, char *line);
 
 
-//出力関係
+//出力関係 testまだ
 
 //出力計算の前準備
 int	ft_prepare_print(t_minirt *minirt);
@@ -157,6 +158,17 @@ t_vec3	ft_make_ray(t_cam cam, double x, double y);
 
 
 void ft_show_image(t_minirt *minirt);
+
+void	ft_calcu_color(t_minirt *minirt, double x, double y);
+void	ft_print_obj(t_minirt *minirt);
+
+
+
+
+
+
+
+
 
 
 //utility functions

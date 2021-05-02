@@ -2,10 +2,13 @@
 
 int	ft_prepare_print(t_minirt *minirt)
 {
+	t_gob *tmp;
 	//windowサイズとvmの画面サイズを比較して，正しいサイズにwidthとhightを変更する関数用意
 	//
 	if (!ft_cam_prepare(minirt->firstcam, minirt->width, minirt->hight))
 		return (0);//camera構造体をいい感じにfreeしてやる必要がある．
+	tmp = ft_oblstlast(minirt->firstgob);
+	tmp->next = minirt->firstgob;
 // 	else if (!ft_obj_prepare(minirt->firstgob))
 // 		return (0);
 //	obj_prepareは不要説あり
