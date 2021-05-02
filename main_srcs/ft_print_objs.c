@@ -24,9 +24,9 @@ int	ft_cam_prepare(t_cam *firstcam, double width, double hight)
 	i = 1;
 	while(firstcam != NULL)
 	{
-		*firstcam = ft_make_screan_base(*firstcam);
+		firstcam = ft_make_screan_base(firstcam);
 		firstcam->cnum = i;
-		firstcam->distance = (double *)malloc(sizeof(double) * width * hight);
+		//firstcam->distance = (double *)malloc(sizeof(double) * width * hight);
 		if (firstcam->distance == NULL)
 			return (0);
 		firstcam->image = (double *)malloc(sizeof(double) * width * hight);

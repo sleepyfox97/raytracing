@@ -50,7 +50,8 @@ typedef struct s_cam
 	t_vec3	vray;
 	struct s_cam	*prev;
 	struct s_cam	*next;
-	double	*distance; // imageとともに，width * hightでmalloc
+	double	distance; // imageとともに，width * hightでmalloc
+	t_color	tmpcolor;
 	int		*image;
 }	t_cam;
 
@@ -89,7 +90,6 @@ typedef struct s_gob
 	double	d;
 	double	h;
 	t_color	color;
-	t_color	tmpcolor;
 	t_vec3	vctoc;
 	struct s_gob	*prev;
 	struct s_gob	*next;
@@ -151,10 +151,10 @@ int	ft_prepare_print(t_minirt *minirt);
 int	ft_cam_prepare(t_cam *firstcam, double width, double hight);
 
 //ft_make_screan.c
-t_cam	ft_make_screan_base(t_cam cat);
+t_cam	ft_make_screan_base(t_cam *cam);
 
 //ft_make_ray.c
-t_vec3	ft_make_ray(t_cam cam, double x, double y);
+t_vec3	ft_make_ray(t_cam *cam, double x, double y);
 
 
 void ft_show_image(t_minirt *minirt);
