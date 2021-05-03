@@ -24,14 +24,14 @@ t_cam	*ft_make_screan_base(t_cam *cam)
 	return (cam);
 }
 
-int	ft_prepare_print(t_minirt *minirt)
+int	ft_prepare_print(t_minirt *rt)
 {
 	t_gob *tmp;
 	//windowサイズとvmの画面サイズを比較して，正しいサイズにwidthとhightを変更する関数用意
 	//
-	if (!ft_cam_prepare(minirt->firstcam, minirt->width, minirt->hight))
+	if (!ft_cam_prepare(rt->firstcam, rt->width, rt->hight))
 		return (0);
-		
+	rt->firstlight->vctol = ft_linear_transform(rt->firstcam->p, rt->firstlight->p, -1, 1);
 	//camera構造体をいい感じにfreeしてやる必要がある．
 	
 	

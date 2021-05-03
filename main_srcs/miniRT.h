@@ -66,7 +66,6 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
-
 //flag initialize -1 first
 typedef struct s_amblight
 {
@@ -83,6 +82,7 @@ typedef struct s_amblight
 typedef struct s_gob
 {
 	int		type;
+	int		obnum;
 	t_vec3	p1;
 	t_vec3	p2;
 	t_vec3	p3;
@@ -90,7 +90,7 @@ typedef struct s_gob
 	double	d;
 	double	h;
 	t_color	color;
-	t_vec3	vctoc;
+	t_vec3	vctoc;//球の場合，球の中心からカメラへ向かうベクトル
 	struct s_gob	*prev;
 	struct s_gob	*next;
 }	t_gob;
@@ -166,9 +166,13 @@ void	ft_sp_color(t_gob *sp, t_cam *cam, t_light *light, t_amblight al);
 void	ft_make_sp(t_cam *cam, t_gob *sp);
 
 t_color ft_set_color(double r, double g, double b);
-
+t_color	ft_ambient_light(t_color c_color, t_amblight a);
 void	ft_show_image(t_minirt *minirt);
 
+
+//light
+void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v);
+t_color	ft_set_diffuse_color(t_color c_c, t_color l_c, t_color s_c, double cos);
 
 
 //utility functions

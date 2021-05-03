@@ -36,7 +36,7 @@ void	ft_type2(t_minirt *minirt, char *argv)
 		return ;
 	else if (i == 1)
 	{
-		//print_minirt_struct(minirt);
+		print_minirt_struct(minirt);
 		if(!ft_prepare_print(minirt))
 			return ft_clear_minirt(minirt);
 		print_prepare_cam(minirt->firstcam);
