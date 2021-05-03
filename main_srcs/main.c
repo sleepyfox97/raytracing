@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	}
 	else if(argc == 2) //argv[1]が.rtで終わるファイルかを確認する．
 	{
-		ft_type2(minirt, argv[1]);
+		ft_type2(&minirt, argv[1]);
 	}
 	else if (argc == 3)
 	{
@@ -26,20 +26,22 @@ int main(int argc, char *argv[])
 //1:read rtfile.
 //2:do rendering.
 //3:free elements.
-void	ft_type2(t_minirt minirt, char *argv)
+void	ft_type2(t_minirt *minirt, char *argv)
 {
 	int i;
 
 	i = 0;
-	i = ft_get_info(&minirt, argv);
+	i = ft_get_info(minirt, argv);
 	if (i == 0)
 		return ;
 	else if (i == 1)
 	{
-		print_minirt_struct(&minirt);
-		if(ft_prepare_print(&minirt))
-			return ft_clear_minirt(&minirt);
-		ft_print_obj(&minirt);
+		//print_minirt_struct(minirt);
+		if(!ft_prepare_print(minirt))
+			return ft_clear_minirt(minirt);
+		print_prepare_cam(minirt->firstcam);
+		print_prepare_obj(minirt->firstgob);
+		ft_print_obj(minirt);
 		ft_show_image(minirt);
 		printf("if this comment shows, You can write good code\n");
 	}

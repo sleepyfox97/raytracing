@@ -23,3 +23,4 @@ int		make_sphere(t_cam *cam, t_sp sp, double x, double y, double *t)
 	return (10000);
 }
 
+//球が後ろにある時に対応できてないかも

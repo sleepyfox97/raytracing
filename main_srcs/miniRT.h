@@ -9,11 +9,11 @@
 # include <stdint.h>
 # include <limits.h>
 
-//# include <X11/Xlib.h>
-//# include <sys/ipc.h>
-//# include <sys/shm.h>
-//# include <X11/extensions/XShm.h>
-//# include "./mlx_linux/mlx.h"
+# include <X11/Xlib.h>
+# include <sys/ipc.h>
+# include <sys/shm.h>
+# include <X11/extensions/XShm.h>
+# include "./minilibx-linux/mlx.h"
 
 //3D vector
 typedef struct s_vec3
@@ -111,7 +111,7 @@ typedef struct s_minirt
 //initialize minirt struct;
 void	ft_initialize_minirt(t_minirt *minirt);
 //if argc == 2, do this function.
-void	ft_type2(t_minirt minirt, char *argv);
+void	ft_type2(t_minirt *minirt, char *argv);
 
 
 //read RTfile.
@@ -151,23 +151,23 @@ int	ft_prepare_print(t_minirt *minirt);
 int	ft_cam_prepare(t_cam *firstcam, double width, double hight);
 
 //ft_make_screan.c
-t_cam	ft_make_screan_base(t_cam *cam);
+t_cam	*ft_make_screan_base(t_cam *cam);
 
 //ft_make_ray.c
 t_vec3	ft_make_ray(t_cam *cam, double x, double y);
 
 
-void ft_show_image(t_minirt *minirt);
+void	ft_show_image(t_minirt *minirt);
 
-void	ft_calcu_color(t_minirt *minirt, double x, double y);
+int		ft_calcu_color(t_minirt *minirt, double x, double y);
 void	ft_print_obj(t_minirt *minirt);
 
+void	ft_sp_color(t_gob *sp, t_cam *cam, t_light *light, t_amblight al);
+void	ft_make_sp(t_cam *cam, t_gob *sp);
 
+t_color ft_set_color(double r, double g, double b);
 
-
-
-
-
+void	ft_show_image(t_minirt *minirt);
 
 
 
@@ -218,4 +218,7 @@ void	print_struct_light(t_light *fisrt);
 void	print_struct_cam(t_cam *fisrt);
 void	print_struct_gob(t_gob *firstgob);
 void	print_color(t_color *color);
+
+void print_prepare_cam(t_cam *first);
+void	print_prepare_obj(t_gob *first);
 #endif

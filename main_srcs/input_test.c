@@ -73,6 +73,8 @@ void	print_struct_gob(t_gob *firstgob)
 			ft_put_vector(firstgob->p1);
 			printf("\ndiameter = %lf\n", firstgob->d);
 			print_color(&(firstgob->color));
+
+			printf("\nsp->next = %p\n", firstgob->next);
 		}
 		else if (firstgob->type == 2)
 		{
