@@ -12,6 +12,8 @@ void	ft_print_obj(t_minirt *minirt)
 	while (1)
 	{
 		i = 0;
+		ft_light_prepare(minirt->firstlight, minirt->firstcam);
+		//minirt->firstlight->vctol = ft_linear_transform(minirt->firstlight->p, minirt->firstcam->p, 1, -1);
 		while (i < (int)minirt->width)
 		{
 			x = i - minirt->width / 2;
@@ -63,15 +65,22 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 
 double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 {
-	double tmp1;
+	double	tmp1;
+	t_light	*tmp2;
+
 	sp->vctoc = ft_linear_transform(sp->p1, cam->p, -1, 1);//初期化の方でできると計算量減らせてかっこいい
 	tmp1 = cam->distance;
+	tmp2 = l;
 	cam->distance = ft_make_sp(cam, sp);
 	if (cam->distance < tmp1)
-	{
 		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
-		ft_diffusion_light(cam, l, sp, sp->vctoc);
+	while (l != NULL)
+	{
+		if (cam->distance < tmp1 && !ft_iscross(sp, l))
+			ft_diffusion_light(cam, l, sp, sp->vctoc);
+		l = l->next;
 	}
+	l = tmp2;
 	return (cam->distance);
 }
 
@@ -184,18 +193,6 @@ t_color	ft_set_diffuse_color2(t_color c_c, t_color l_c, t_color s_c, double cos)
 	c_c.b = rgb.b + c_c.b;
 	if (c_c.b > 255)
 		c_c.b = 255;
-	// if (rgb.r > 255)
-	// 	rgb.r = 255;
-	// if (rgb.g > 255)
-	// 	rgb.g = 255;
-	// if (rgb.b > 255)
-	// 	rgb.b = 255;
-	// if (rgb.r > c_c.r)
-	// 	c_c.r = rgb.r;
-	// if (rgb.g > c_c.g)
-	// 	c_c.g = rgb.g;
-	// if (rgb.b > c_c.b)
-	// 	c_c.b = rgb.b;
 	return (c_c);
 }
 //ホントはif文いるけど，比べる対称が今は，以内から無しでOK
@@ -286,4 +283,3 @@ void	ft_show_image(t_minirt *minirt)
 // int	ft_iscross_triangle()
 // int	ft_iscross_cylinder()
 // int	ft_iscross_square()
-

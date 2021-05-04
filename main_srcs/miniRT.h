@@ -59,6 +59,7 @@ typedef struct s_cam
 //vctol: vector from cam to light, you have to chang this for each camera
 typedef struct s_light
 {
+	int		lnum;
 	t_vec3	p;
 	double	r;
 	t_color	color;
@@ -149,7 +150,7 @@ int		ft_triangle_input(t_gob **firstgob, char *line);
 //出力計算の前準備
 int	ft_prepare_print(t_minirt *minirt);
 int	ft_cam_prepare(t_cam *firstcam, double width, double hight);
-
+void	ft_light_prepare(t_light *flight, t_cam *cam);
 //ft_make_screan.c
 t_cam	*ft_make_screan_base(t_cam *cam);
 

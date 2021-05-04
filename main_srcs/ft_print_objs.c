@@ -32,6 +32,7 @@ int	ft_prepare_print(t_minirt *rt)
 	if (!ft_cam_prepare(rt->firstcam, rt->width, rt->hight))
 		return (0);
 	//lightからカメラへのベクトル
+	//cameraごとにしないとだめ．
 	rt->firstlight->vctol = ft_linear_transform(rt->firstcam->p, rt->firstlight->p, -1, 1);
 	//camera構造体をいい感じにfreeしてやる必要がある．
 	
@@ -42,6 +43,24 @@ int	ft_prepare_print(t_minirt *rt)
 	// 		return (0);
 	//	obj_prepareは不要説あり
 	return (1);
+}
+
+void	ft_light_prepare(t_light *flight, t_cam *cam)
+{
+	t_light *tmp1;
+	int i;
+
+	tmp1 = flight;
+	i = 1;
+	while (flight != NULL)
+	{
+		flight->lnum = i;
+		flight->vctol = ft_linear_transform(flight->p, cam->p, 1, -1);
+		i++;
+		flight = flight->next;
+	}
+	flight = tmp1;
+	return ;
 }
 
 int	ft_cam_prepare(t_cam *firstcam, double width, double hight)
