@@ -1,38 +1,35 @@
-// #include "./miniRT.h"
+#include "./miniRT.h"
 
-// 	vtmp = ft_linear_transform(cam->p, gob->p1, 1, -1);//球の中心からカメラへのベクトル（ここの外で計算しい）
-// 	cam->vray = ft_make_ray(cam, x, y);//ft_make_sphereの外に描画時，最初にやることにする．
+double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
+{
+	double	tmp1;
+	t_light	*tmp2;
 
-// //vrayは単位ベクトルにしておくことで，tが常に，長さとして使用可能になる．
+	sp->vctoc = ft_linear_transform(sp->p1, cam->p, -1, 1);//初期化の方でできると計算量減らせてかっこいい
+	tmp1 = cam->distance;
+	tmp2 = l;
+	cam->distance = ft_make_sp(cam, sp);
+	if (cam->distance < tmp1)
+		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
+	while (l != NULL)
+	{
+		if (cam->distance < tmp1 && !ft_iscross(sp, l, cam))
+			ft_diffusion_light(cam, l, sp, sp->vctoc);
+		l = l->next;
+	}
+	l = tmp2;
+	return (cam->distance);
+}
 
-// int	ft_make_sphere(t_cam *cam, t_gob *gob, t_vec vtmp)
-// {
-// 	double	a;
-// 	double	b;
-// 	double	c;
-// 	double	d;
+double	ft_make_sp(t_cam *cam, t_gob *sp)
+{
+	double	a;
+	double	b;
+	double	c;
 
-// 	a = ft_v_d_len(cam->vray);
-// 	b = ft_inner_product(cam->ray, vtmp);
-// 	c = ft_v_d_len(vtmp) - gob->d + gob->d / 4;//先に2で割っといて，半径にして計算量減らしてもよさそう
-// 	d = b * b - a * c;
-// 	if (d >= 0)
-// 	{
-// 		//球の色を出すべき，xｙとその時のcameraからのcam->tが分かる
-// 		//ambient lightを用いて，RGBを比較して，色の更新
-// 		//lightを用いて,RGBを比較して，色の更新(while文回して，全てのlightに関して行う)
-// 		//
-// 	}
-// }
-
-
-// int	ft_iscross_sphere(t_vec3 v1, t_gob *sphere, t_vec vtmp)
-// {
-
-// }
-
-// int	ft_iscross_plane()
-// int	ft_iscross_triangle()
-// int	ft_iscross_cylinder()
-// int	ft_iscross_square()
-
+	a = 1;//vrayは常に大きさ1なので変わらない．
+	b = ft_inner_product(cam->vray, sp->vctoc); //vrayに合わせて変わる
+	c = ft_v_d_len(sp->vctoc) - sp->d * sp->d / 4;//変わらない
+	cam->distance = ft_quadratic_func(a, b, c);
+	return (cam->distance);
+}

@@ -32,6 +32,32 @@ void	ft_print_obj(t_minirt *minirt)
 	}
 }
 
+void	ft_show_image(t_minirt *minirt)
+{
+	int		i;
+	int		j;
+	int		*c;
+	void	*mlx_ptr;
+	void	*win_ptr;
+
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, minirt->width, minirt->hight, "miniRT");
+	c = minirt->firstcam->image;
+	i = 0;
+	while (i < minirt->width)
+	{
+		j = 0;
+		while (j < minirt->hight)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, i, j, c[i * (int)minirt->hight + j]);
+			j++;
+		}
+		i++;
+	}
+	mlx_loop(mlx_ptr);
+	return ;
+}
+
 int	ft_prepare_print(t_minirt *rt)
 {
 	t_gob *tmp;
