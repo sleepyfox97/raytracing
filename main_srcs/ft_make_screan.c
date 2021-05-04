@@ -4,15 +4,13 @@ void	ft_print_obj(t_minirt *minirt)
 {
 	int i;
 	int j;
-	int h;
 	double x;
 	double y;
+	t_gob	*tmp;
 
-	h = (int)minirt->hight;
+	tmp = minirt->firstgob;
 	while (1)
 	{
-		if (minirt->firstgob->type == 1)
-			minirt->firstgob->vctoc = ft_linear_transform(minirt->firstgob->p1, minirt->firstcam->p, -1, 1);
 		i = 0;
 		while (i < (int)minirt->width)
 		{
@@ -20,8 +18,9 @@ void	ft_print_obj(t_minirt *minirt)
 			j = 0;
 			while (j < (int)minirt->hight)
 			{
+				minirt->firstgob = tmp;
 				y = (-1) * (j - minirt->hight / 2);
-				minirt->firstcam->image[i * h + j] = ft_calcu_color(minirt, x, y);
+				minirt->firstcam->image[i * (int)minirt->hight + j] = ft_calcu_color(minirt, x, y);
 				j++;
 			}
 			i++;
@@ -39,12 +38,12 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 
 	rt->firstcam->distance = INFINITY;
 	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
+	rt->firstcam->tmpcolor = ft_set_color(100, 100, 100);//ピクセルごとにtmpcolorを初期化しないと危険
 	while (1)
 	{
 		if (rt->firstgob->type == 1)
-			rt->firstcam->distance = ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
+			ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
 		//else if (rt->firstgob->type == 2)
-
 		if (rt->firstgob->next == NULL)
 			break ;
 		rt->firstgob = rt->firstgob->next;
@@ -65,17 +64,15 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 {
 	double tmp1;
-	double tmp2;
-
+	sp->vctoc = ft_linear_transform(sp->p1, cam->p, -1, 1);//初期化の方でできると計算量減らせてかっこいい
 	tmp1 = cam->distance;
 	cam->distance = ft_make_sp(cam, sp);
-	if(tmp1 > ft_make_sp(cam, sp))
+	if (cam->distance < tmp1)
 	{
 		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
 		ft_diffusion_light(cam, l, sp, sp->vctoc);
 	}
 	return (cam->distance);
-
 }
 
 double	ft_make_sp(t_cam *cam, t_gob *sp)
@@ -89,21 +86,23 @@ double	ft_make_sp(t_cam *cam, t_gob *sp)
 	b = ft_inner_product(cam->vray, sp->vctoc); //vrayに合わせて変わる
 	c = ft_v_d_len(sp->vctoc) - sp->d * sp->d / 4;//変わらない
 	d = b * b - a * c;
-	if (d >= 0)
+	if (d > 0)
 	{
-		if ((-1) * b - sqrt(d) > 0 && (-1) * b - sqrt(d) <= cam->distance )
+		cam->distance = (-1) * b -sqrt(d);
+		if ((-1) * b - sqrt(d) > 0)
 			cam->distance = ((-1) * b - sqrt(d));
 		else if ((-1) * b + sqrt(d) <= 0)
 			cam->distance = INFINITY;
-		else if ((-1) * b +sqrt(d) < cam->distance)
+		else
 			cam->distance = ((-1) * b + sqrt(d));
 	}
 	else
 		cam->distance = INFINITY;
-	if (d < 0 || cam->distance == INFINITY)
-		cam->tmpcolor = ft_set_color(30, 30, 30);
-	else
-		cam->tmpcolor = sp->color;
+	// if (cam->distance == INFINITY)
+	// 	return (INFINITY);
+		//cam->tmpcolor = ft_set_color(30, 30, 30);
+	// else
+	// 	cam->tmpcolor = sp->color;
 	return (cam->distance);
 }
 
@@ -136,11 +135,9 @@ void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v)
 	if (cos1 > 0)
 		cam->tmpcolor = ft_set_diffuse_color2(cam->tmpcolor, l->color, sp->color, cos1 * l->r);
 
-	//鏡面反射の計算式がミスってる
 	v3 = ft_linear_transform(v1, v2, (-2) * cos1, 1);//向きに注意
 	v3 = ft_make_unitvec(v3);
 	cos2 = ft_inner_product(cam->vray, v3);
-	
 	if (cos2 > 0)
 	{
 		cos2 = pow(cos2, 10) * l->r * 0.4;//正の時に2乗しないとダメ．

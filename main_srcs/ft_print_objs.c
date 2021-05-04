@@ -31,6 +31,7 @@ int	ft_prepare_print(t_minirt *rt)
 	//
 	if (!ft_cam_prepare(rt->firstcam, rt->width, rt->hight))
 		return (0);
+	//lightからカメラへのベクトル
 	rt->firstlight->vctol = ft_linear_transform(rt->firstcam->p, rt->firstlight->p, -1, 1);
 	//camera構造体をいい感じにfreeしてやる必要がある．
 	
@@ -57,6 +58,7 @@ int	ft_cam_prepare(t_cam *firstcam, double width, double hight)
 		firstcam->vptos = ft_linear_transform(firstcam->vd, firstcam->vd, (width / (2 * (tan(firstcam->fov / 2)))), 0);
 		firstcam = ft_make_screan_base(firstcam);
 		firstcam->cnum = i;
+		firstcam->tmpcolor = ft_set_color(30, 30, 30);//無限遠の色の設定
 		//firstcam->distance = (double *)malloc(sizeof(double) * width * hight);
 		firstcam->image = (int *)malloc(sizeof(int) * width * hight);
 		if (firstcam->image == NULL)
