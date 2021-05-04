@@ -24,42 +24,10 @@ t_cam	*ft_make_screan_base(t_cam *cam)
 	return (cam);
 }
 
-t_vec3	ft_make_ray(t_cam *cam, double x, double y)
-{
-	t_vec3	vray;
-	t_vec3	vtmp;
-
-	vtmp = ft_linear_transform(cam->vsb1, cam->vsb2, x, y);
-	vray = ft_linear_transform(vtmp, cam->vptos, 1, 1);
-	vray = ft_make_unitvec(vray);
-	return (vray);
-}
-
 //nor対応とbonusのカメラ回転を考えて，各ピクセルについて回している部分は別関数に投げるのが良さげ．
 //引数として，h(hight)とw(width)を用意して投げる．
 
-int	ft_calcu_color(t_minirt *rt, double x, double y)
-{
-	int color;
-	t_color	c;
 
-	rt->firstcam->distance = INFINITY;
-	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
-	rt->firstcam->tmpcolor = ft_set_color(150, 150, 150);
-	while (1)
-	{
-		if (rt->firstgob->type == 1)
-			ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
-		//else if (rt->firstgob->type == 2)
-		if (rt->firstgob->next->obnum == 1)
-			break ;
-		rt->firstgob = rt->firstgob->next;
-	}
-	c = rt->firstcam->tmpcolor;
-	color = (int)c.r << 16 | (int)c.g << 8 | (int)c.b;
-	return (color);
-	//objectに関するwhile文の中で，light影の判定，重なり判定を行い，色を決定
-}
 
 //必ず，正の方向の値として，長さを取りたいときに使う．
 double	ft_quadratic_func(double a, double b, double c)

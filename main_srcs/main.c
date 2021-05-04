@@ -31,7 +31,7 @@ void	ft_type2(t_minirt *minirt, char *argv)
 	int i;
 
 	i = 0;
-	i = ft_get_info(minirt, argv);
+	i = ft_get_info(minirt, argv);//A,R,cがない時，A，Rが二つある時のerror処理
 	if (i == 0)
 		return ;
 	else if (i == 1)

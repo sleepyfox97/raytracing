@@ -14,7 +14,7 @@ double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 	while (l != NULL)
 	{
 		if (cam->distance < tmp1 && !ft_iscross(sp, l, cam))
-			ft_diffusion_light(cam, l, sp, sp->vctoc);
+			ft_diffusion_light_sp(cam, l, sp, sp->vctoc);
 		l = l->next;
 	}
 	l = tmp2;

@@ -48,3 +48,25 @@ int iscross_sp(t_gob *sp, t_vec3 lp, t_cam *cam)
 	else
 		return (0);
 }
+
+int	iscross_pl(t_gob *pl, t_vec3 lp, t_cam *cam)
+{
+	t_vec3	tmp1;
+	t_vec3	tmp2;
+	double	a;
+	double	b;
+	double	c;
+
+	//rayと物体のぶつかる場所
+	tmp1 = ft_linear_transform(cam->vray, cam->p, cam->distance, 1);
+	c = ft_inner_product(ft_linear_transform(cam->p, tmp1, 1, -1), pl->vno);
+	if (c < 0)
+		pl->vno = ft_linear_transform(pl->vno, pl->vno, -1, 0);
+	//tmp1の場所からlightへの方向ベクトル
+	tmp2 = ft_linear_transform(lp, tmp1, 1, -1);
+	a = ft_inner_product(tmp2, pl->vno);
+	b = ft_inner_product(ft_linear_transform(tmp1, pl->p1, 1, -1), pl->vno);
+	if (a == 0 || b / a < 0)
+		return (0);
+	return (1);
+}

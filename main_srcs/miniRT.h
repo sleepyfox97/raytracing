@@ -171,15 +171,19 @@ t_color ft_set_color(double r, double g, double b);
 t_color	ft_ambient_light(t_color c_color, t_amblight a);
 void	ft_show_image(t_minirt *minirt);
 
+double	ft_pl_color(t_gob *pl, t_cam *cam, t_light *l, t_amblight al);
 
 //light
-void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v);
+void 	ft_diffusion_light_sp(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v);
+void	ft_diffusion_light_pl(t_cam *cam, t_light *l, t_gob *pl);
 t_color	ft_set_diffuse_color1(t_color c_c, t_color l_c, t_color s_c, double cos);
 t_color	ft_set_diffuse_color2(t_color c_c, t_color l_c, t_color s_c, double cos);
 
 //影の実装
 int	ft_iscross(t_gob *ob, t_light *l, t_cam *cam);
 int iscross_sp(t_gob *sp, t_vec3 lp, t_cam *cam);
+int	iscross_pl(t_gob *pl, t_vec3 lp, t_cam *cam);
+
 
 double	ft_quadratic_func(double a, double b, double c);
 

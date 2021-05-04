@@ -32,6 +32,30 @@ void	ft_print_obj(t_minirt *minirt)
 	}
 }
 
+int	ft_calcu_color(t_minirt *rt, double x, double y)
+{
+	int color;
+	t_color	c;
+
+	rt->firstcam->distance = INFINITY;
+	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
+	rt->firstcam->tmpcolor = ft_set_color(150, 150, 150);
+	while (1)
+	{
+		if (rt->firstgob->type == 1)
+			ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
+		else if (rt->firstgob->type == 2)
+			ft_pl_color(rt->firstgob, rt->firstcam, rt->firstlight, rt->al);
+		if (rt->firstgob->next->obnum == 1)
+			break ;
+		rt->firstgob = rt->firstgob->next;
+	}
+	c = rt->firstcam->tmpcolor;
+	color = (int)c.r << 16 | (int)c.g << 8 | (int)c.b;
+	return (color);
+	//objectに関するwhile文の中で，light影の判定，重なり判定を行い，色を決定
+}
+
 void	ft_show_image(t_minirt *minirt)
 {
 	int		i;
