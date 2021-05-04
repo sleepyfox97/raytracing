@@ -13,7 +13,6 @@ void	ft_print_obj(t_minirt *minirt)
 	{
 		i = 0;
 		ft_light_prepare(minirt->firstlight, minirt->firstcam);
-		//minirt->firstlight->vctol = ft_linear_transform(minirt->firstlight->p, minirt->firstcam->p, 1, -1);
 		while (i < (int)minirt->width)
 		{
 			x = i - minirt->width / 2;
@@ -40,7 +39,7 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 
 	rt->firstcam->distance = INFINITY;
 	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
-	rt->firstcam->tmpcolor = ft_set_color(100, 100, 100);//ピクセルごとにtmpcolorを初期化しないと危険
+	rt->firstcam->tmpcolor = ft_set_color(50, 50, 50);
 	while (1)
 	{
 		if (rt->firstgob->type == 1)
@@ -76,7 +75,7 @@ double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
 	while (l != NULL)
 	{
-		if (cam->distance < tmp1 && !ft_iscross(sp, l))
+		if (cam->distance < tmp1 /*&& !ft_iscross(sp, l)*/)
 			ft_diffusion_light(cam, l, sp, sp->vctoc);
 		l = l->next;
 	}
