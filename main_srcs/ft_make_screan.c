@@ -37,11 +37,12 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 	int color;
 	t_color	c;
 
+	rt->firstcam->distance = INFINITY;
 	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
 	while (1)
 	{
 		if (rt->firstgob->type == 1)
-			ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
+			rt->firstcam->distance = ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
 		//else if (rt->firstgob->type == 2)
 
 		if (rt->firstgob->next == NULL)
@@ -61,7 +62,23 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 	// 	rt->firstgob = rt->firstgob->next;
 	// }
 
-void	ft_make_sp(t_cam *cam, t_gob *sp)
+double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
+{
+	double tmp1;
+	double tmp2;
+
+	tmp1 = cam->distance;
+	cam->distance = ft_make_sp(cam, sp);
+	if(tmp1 > ft_make_sp(cam, sp))
+	{
+		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
+		ft_diffusion_light(cam, l, sp, sp->vctoc);
+	}
+	return (cam->distance);
+
+}
+
+double	ft_make_sp(t_cam *cam, t_gob *sp)
 {
 	double	a;
 	double	b;
@@ -74,42 +91,23 @@ void	ft_make_sp(t_cam *cam, t_gob *sp)
 	d = b * b - a * c;
 	if (d >= 0)
 	{
-		if ((-1) * b - sqrt(d) > 0)
+		if ((-1) * b - sqrt(d) > 0 && (-1) * b - sqrt(d) <= cam->distance )
 			cam->distance = ((-1) * b - sqrt(d));
 		else if ((-1) * b + sqrt(d) <= 0)
 			cam->distance = INFINITY;
-		else
+		else if ((-1) * b +sqrt(d) < cam->distance)
 			cam->distance = ((-1) * b + sqrt(d));
 	}
 	else
 		cam->distance = INFINITY;
 	if (d < 0 || cam->distance == INFINITY)
-		cam->tmpcolor = ft_set_color(10, 10, 10);
+		cam->tmpcolor = ft_set_color(30, 30, 30);
 	else
 		cam->tmpcolor = sp->color;
-
-	//cam->tmpcolor = ft_set_color(255, 0, 0);
-	return ;
+	return (cam->distance);
 }
 
-void	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
-{
-	ft_make_sp(cam, sp);
-	if(cam->distance != INFINITY)
-	{
-		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
-		ft_diffusion_light(cam, l, sp, sp->vctoc);
-	}
-	return ;
 
-}
-	//rayだすt出す
-	//今までのtと比較．
-	//交点のt出す，al用いて，色の更新．
-	//lightについてwhile分回す
-	//lightごとにvctolの計算，
-	//その他の物体がlightまでに邪魔をしてるかの計算
-	//lightによる拡散反射，鏡面反射の実装
 	//RGBで判断して明るければ，OK
 	//ここら辺上手に考えたら計算量減らせそう．
 	//vは球の中心んからカメラへ向かうベクトルになってる
@@ -135,50 +133,72 @@ void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v)
 	v2 = ft_linear_transform(cam->vray, l->vctol, (-1) * cam->distance, 1);//拡散点からlightに向かう
 	v2 = ft_make_unitvec(v2);
 	cos1 = ft_inner_product(v1, v2);
-	if (cos1 < 0)
-		return ;
-		//cam->tmpcolor = ft_set_color(0, 0, 0);
-	else
-		cam->tmpcolor = ft_set_diffuse_color(cam->tmpcolor, l->color, sp->color, cos1 * l->r);
+	if (cos1 > 0)
+		cam->tmpcolor = ft_set_diffuse_color2(cam->tmpcolor, l->color, sp->color, cos1 * l->r);
 
-	//鏡面反射
-	v3 = ft_linear_transform(v1, v2, (-2) * cos1, 1);
+	//鏡面反射の計算式がミスってる
+	v3 = ft_linear_transform(v1, v2, (-2) * cos1, 1);//向きに注意
 	v3 = ft_make_unitvec(v3);
 	cos2 = ft_inner_product(cam->vray, v3);
-	cos2 = pow(cos2, 10) * l->r;
-	// if (cos2 > 0)
-	// 	cam->tmpcolor = ft_set_diffuse_color(cam->tmpcolor, l->color, sp->color, cos2);
+	
+	if (cos2 > 0)
+	{
+		cos2 = pow(cos2, 10) * l->r * 0.4;//正の時に2乗しないとダメ．
+		cam->tmpcolor = ft_set_diffuse_color2(cam->tmpcolor, l->color, sp->color, cos2);
+	}
 	return ;
 }
 
-t_color	ft_set_diffuse_color(t_color c_c, t_color l_c, t_color s_c, double cos)
+// t_color	ft_set_diffuse_color1(t_color c_c, t_color l_c, t_color s_c, double cos)
+// {
+// 	t_color rgb;
+
+// 	rgb.r = (s_c.r / 255) * (l_c.r / 255) * cos * 255;
+// 	rgb.g = (s_c.g / 255) * (l_c.g / 255) * cos * 255;
+// 	rgb.b = (s_c.b / 255) * (l_c.b / 255) * cos * 255;
+// 	if (rgb.r > 255)
+// 		rgb.r = 255;
+// 	if (rgb.g > 255)
+// 		rgb.g = 255;
+// 	if (rgb.b > 255)
+// 		rgb.b = 255;
+// 	if (rgb.r > c_c.r)
+// 		c_c.r = rgb.r;
+// 	if (rgb.g > c_c.g)
+// 		c_c.g = rgb.g;
+// 	if (rgb.b > c_c.b)
+// 		c_c.b = rgb.b;
+// 	return (c_c);
+// }
+
+t_color	ft_set_diffuse_color2(t_color c_c, t_color l_c, t_color s_c, double cos)
 {
 	t_color rgb;
 
 	rgb.r = (s_c.r / 255) * (l_c.r / 255) * cos * 255;
 	rgb.g = (s_c.g / 255) * (l_c.g / 255) * cos * 255;
 	rgb.b = (s_c.b / 255) * (l_c.b / 255) * cos * 255;
-	//c_c.r = rgb.r + c_c.r;
-	// if (c_c.r > 255)
-	// 	c_c.r = 255;
-	// c_c.g = rgb.g + c_c.g;
-	// if (c_c.g > 255)
-	// 	c_c.g = 255;
-	// c_c.b = rgb.b + c_c.b;
-	// if (c_c.b > 255)
-	// 	c_c.b = 255;
-	if (rgb.r > 255)
-		rgb.r = 255;
-	if (rgb.g > 255)
-		rgb.g = 255;
-	if (rgb.b > 255)
-		rgb.b = 255;
-	if (rgb.r > c_c.r)
-		c_c.r = rgb.r;
-	if (rgb.g > c_c.g)
-		c_c.g = rgb.g;
-	if (rgb.b > c_c.b)
-		c_c.b = rgb.b;
+	c_c.r = rgb.r + c_c.r;
+	if (c_c.r > 255)
+		c_c.r = 255;
+	c_c.g = rgb.g + c_c.g;
+	if (c_c.g > 255)
+		c_c.g = 255;
+	c_c.b = rgb.b + c_c.b;
+	if (c_c.b > 255)
+		c_c.b = 255;
+	// if (rgb.r > 255)
+	// 	rgb.r = 255;
+	// if (rgb.g > 255)
+	// 	rgb.g = 255;
+	// if (rgb.b > 255)
+	// 	rgb.b = 255;
+	// if (rgb.r > c_c.r)
+	// 	c_c.r = rgb.r;
+	// if (rgb.g > c_c.g)
+	// 	c_c.g = rgb.g;
+	// if (rgb.b > c_c.b)
+	// 	c_c.b = rgb.b;
 	return (c_c);
 }
 //ホントはif文いるけど，比べる対称が今は，以内から無しでOK

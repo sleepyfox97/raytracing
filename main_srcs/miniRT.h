@@ -162,8 +162,8 @@ void	ft_show_image(t_minirt *minirt);
 int		ft_calcu_color(t_minirt *minirt, double x, double y);
 void	ft_print_obj(t_minirt *minirt);
 
-void	ft_sp_color(t_gob *sp, t_cam *cam, t_light *light, t_amblight al);
-void	ft_make_sp(t_cam *cam, t_gob *sp);
+double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *light, t_amblight al);
+double	ft_make_sp(t_cam *cam, t_gob *sp);
 
 t_color ft_set_color(double r, double g, double b);
 t_color	ft_ambient_light(t_color c_color, t_amblight a);
@@ -172,8 +172,8 @@ void	ft_show_image(t_minirt *minirt);
 
 //light
 void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v);
-t_color	ft_set_diffuse_color(t_color c_c, t_color l_c, t_color s_c, double cos);
-
+t_color	ft_set_diffuse_color1(t_color c_c, t_color l_c, t_color s_c, double cos);
+t_color	ft_set_diffuse_color2(t_color c_c, t_color l_c, t_color s_c, double cos);
 
 //utility functions
 
