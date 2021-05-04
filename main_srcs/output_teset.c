@@ -42,7 +42,7 @@ void	print_prepare_obj(t_gob *first)
 		printf("sp->next = %p\n", first->next);
 		printf("sp       = %p\n", first);
 		}
-		if (first->next == NULL)
+		if (first->next->obnum == 1)
 			break ;
 		first = first->next;
 		i++;

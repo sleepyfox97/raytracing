@@ -1,36 +1,33 @@
 #include "./miniRT.h"
 
-void	ft_print_obj(t_minirt *minirt)
+t_cam	*ft_make_screan_base(t_cam *cam)
 {
-	int i;
-	int j;
-	double x;
-	double y;
-	t_gob	*tmp;
-
-	tmp = minirt->firstgob;
-	while (1)
+	if (cam->vd.x == 0 && cam->vd.y >= 0)
+		cam->vsb1 = ft_set_vecele(1, 0, 0);
+	else if (cam->vd.x == 0 && cam->vd.y < 0)
+		cam->vsb1 = ft_set_vecele(-1, 0, 0);
+	else if (cam->vd.y == 0 && cam->vd.x >= 0)
+		cam->vsb1 = ft_set_vecele(0, -1 , 0);
+	else if (cam->vd.y == 0 && cam->vd.x < 0)
+		cam->vsb1 = ft_set_vecele(0, 1 , 0);
+	else
 	{
-		i = 0;
-		ft_light_prepare(minirt->firstlight, minirt->firstcam);
-		while (i < (int)minirt->width)
-		{
-			x = i - minirt->width / 2;
-			j = 0;
-			while (j < (int)minirt->hight)
-			{
-				minirt->firstgob = tmp;
-				y = (-1) * (j - minirt->hight / 2);
-				minirt->firstcam->image[i * (int)minirt->hight + j] = ft_calcu_color(minirt, x, y);
-				j++;
-			}
-			i++;
-		}
-		if (minirt->firstcam->next->cnum == 1)
-			break ;
-		minirt->firstcam = minirt->firstcam->next;//この回し方は下手なきがする．
+		cam->vsb1.x = 1;
+		cam->vsb1.y = (-1) * (cam->vd.x + cam->vsb1.x) / cam->vd.y;
 	}
+	if (cam->vd.z == 0)
+		cam->vsb2 = ft_set_vecele(0,0,1);
+	else
+		cam->vsb2 = ft_cross_product(cam->vsb1, cam->vd);
+	cam->vsb1 = ft_make_unitvec(cam->vsb1);
+	cam->vsb2 = ft_make_unitvec(cam->vsb2);
+	return (cam);
 }
+
+
+
+//nor対応とbonusのカメラ回転を考えて，各ピクセルについて回している部分は別関数に投げるのが良さげ．
+//引数として，h(hight)とw(width)を用意して投げる．
 
 int	ft_calcu_color(t_minirt *rt, double x, double y)
 {
@@ -39,13 +36,13 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 
 	rt->firstcam->distance = INFINITY;
 	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
-	rt->firstcam->tmpcolor = ft_set_color(50, 50, 50);
+	rt->firstcam->tmpcolor = ft_set_color(150, 150, 150);
 	while (1)
 	{
 		if (rt->firstgob->type == 1)
 			ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
 		//else if (rt->firstgob->type == 2)
-		if (rt->firstgob->next == NULL)
+		if (rt->firstgob->next->obnum == 1)
 			break ;
 		rt->firstgob = rt->firstgob->next;
 	}
@@ -54,13 +51,6 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 	return (color);
 	//objectに関するwhile文の中で，light影の判定，重なり判定を行い，色を決定
 }
-
-	// while (rt->firstgob != NULL)
-	// {
-	// 	if (rt->firstgob->type == 1)
-	// 		ft_sp_color(rt->firstgob, rt->firstcam ,rt->firstlight, rt->al);
-	// 	rt->firstgob = rt->firstgob->next;
-	// }
 
 double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 {
@@ -75,7 +65,7 @@ double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
 	while (l != NULL)
 	{
-		if (cam->distance < tmp1 /*&& !ft_iscross(sp, l)*/)
+		if (cam->distance < tmp1 && !ft_iscross(sp, l, cam))
 			ft_diffusion_light(cam, l, sp, sp->vctoc);
 		l = l->next;
 	}
@@ -83,41 +73,39 @@ double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *l, t_amblight al)
 	return (cam->distance);
 }
 
+//必ず，正の方向の値として，長さを取りたいときに使う．
+double	ft_quadratic_func(double a, double b, double c)
+{
+	double	d;
+
+	d = b * b - a * c;
+	if (d > 0)
+	{
+		if ((-1) * b - sqrt(d) > 0)
+			return (((-1) * b - sqrt(d)));
+		else if ((-1) * b + sqrt(d) <= 0)
+			return (INFINITY);
+		else
+			return (((-1) * b + sqrt(d)));
+	}
+	else
+		return (INFINITY);
+}
+
 double	ft_make_sp(t_cam *cam, t_gob *sp)
 {
 	double	a;
 	double	b;
 	double	c;
-	double	d;
 
 	a = 1;//vrayは常に大きさ1なので変わらない．
 	b = ft_inner_product(cam->vray, sp->vctoc); //vrayに合わせて変わる
 	c = ft_v_d_len(sp->vctoc) - sp->d * sp->d / 4;//変わらない
-	d = b * b - a * c;
-	if (d > 0)
-	{
-		cam->distance = (-1) * b -sqrt(d);
-		if ((-1) * b - sqrt(d) > 0)
-			cam->distance = ((-1) * b - sqrt(d));
-		else if ((-1) * b + sqrt(d) <= 0)
-			cam->distance = INFINITY;
-		else
-			cam->distance = ((-1) * b + sqrt(d));
-	}
-	else
-		cam->distance = INFINITY;
-	// if (cam->distance == INFINITY)
-	// 	return (INFINITY);
-		//cam->tmpcolor = ft_set_color(30, 30, 30);
-	// else
-	// 	cam->tmpcolor = sp->color;
+	cam->distance = ft_quadratic_func(a, b, c);
 	return (cam->distance);
 }
 
 
-	//RGBで判断して明るければ，OK
-	//ここら辺上手に考えたら計算量減らせそう．
-	//vは球の中心んからカメラへ向かうベクトルになってる
 
 t_color	ft_ambient_light(t_color c_color, t_amblight a)
 {
@@ -126,6 +114,9 @@ t_color	ft_ambient_light(t_color c_color, t_amblight a)
 	c_color.b = a.color.b * a.r;
 	return (c_color);
 }
+	//拡散，鏡面，環境を足すのが一番それっぽくなる気がする．
+	//ここら辺上手に考えたら計算量減らせそう．
+	//vは球の中心んからカメラへ向かうベクトルになってる
 
 void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v)
 {

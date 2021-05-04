@@ -151,6 +151,7 @@ int		ft_triangle_input(t_gob **firstgob, char *line);
 int	ft_prepare_print(t_minirt *minirt);
 int	ft_cam_prepare(t_cam *firstcam, double width, double hight);
 void	ft_light_prepare(t_light *flight, t_cam *cam);
+void	ft_obj_prepare(t_gob *firstgob);
 //ft_make_screan.c
 t_cam	*ft_make_screan_base(t_cam *cam);
 
@@ -175,6 +176,13 @@ void	ft_show_image(t_minirt *minirt);
 void 	ft_diffusion_light(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v);
 t_color	ft_set_diffuse_color1(t_color c_c, t_color l_c, t_color s_c, double cos);
 t_color	ft_set_diffuse_color2(t_color c_c, t_color l_c, t_color s_c, double cos);
+
+//影の実装
+int	ft_iscross(t_gob *ob, t_light *l, t_cam *cam);
+int iscross_sp(t_gob *sp, t_vec3 lp, t_cam *cam);
+
+double	ft_quadratic_func(double a, double b, double c);
+
 
 //utility functions
 
