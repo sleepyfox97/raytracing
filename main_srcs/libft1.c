@@ -7,31 +7,37 @@ int	ft_isspace(char c)
 	else
 		return (0);
 }
-
+//精度とnormが微妙
 int	ft_atof(char *s, int i, double *result)
 {
 	double	j;
+	double	minus;
 
 	j = 1;
-	if (ft_atol(s, i, result) == 0)
+	i = ft_atol(s, i, result);
+	minus = 1;
+	if (i == 0)
 		return (0);
-	while (ft_isspace(s[i]))
-		i++;
-	if (s[i] == '+' || s[i] == '-')
-		i++;
-	while ('0' <= s[i] && s[i] <= '9')
-		i++;
-	if (s[i] == '.')
+	if (s[i] == '.' && '0' <= s[i + 1] && s[i + 1] <= '9')
 	{
+		if (*result < 0)
+		{
+			minus = -1;
+			if (*result == -1 && s[i - 1] == '0')
+				*result = 0;
+			else
+				*result = *result * (-1);
+		}
 		i++;
 		while ('0' <= s[i] && s[i] <= '9')
 			*result = *result + ((s[i++]) - '0') * (j *= 0.1);
+		*result = *result * minus;
 	}
-	// if (*result == inf || *result == -inf)
-	// 	return (0);
+	if (*result == INFINITY /*|| *result == NaN*/)
+		return (0);
 	return (i);
 }
-
+//-0.5とかに対応できてない．
 int	ft_atol(char *s, int i, double *result)
 {
 	long	minus;
@@ -56,6 +62,8 @@ int	ft_atol(char *s, int i, double *result)
 		*result = ((s[i++]) - '0') + (*result) * 10;
 	}
 	*result = (*result) * minus;
+	if (*result == 0 && minus == -1 && s[i] == '.')
+		*result = -1;
 	return (i);
 }
 

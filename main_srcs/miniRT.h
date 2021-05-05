@@ -220,6 +220,7 @@ t_vec3	ft_make_unitvec(t_vec3 v);
 //vector util2
 t_vec3	ft_set_vecele(double x, double y, double z);
 void	ft_put_vector(t_vec3 v);
+int		ft_isnormal(t_vec3 *v);
 t_vec3	ft_gramschmidt_1(t_vec3 v1, t_vec3 v2);
 t_vec3	ft_gramschmidt_2(t_vec3 v1, t_vec3 v2, t_vec3 v3);
 

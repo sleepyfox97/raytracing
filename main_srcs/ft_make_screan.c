@@ -13,7 +13,8 @@ t_cam	*ft_make_screan_base(t_cam *cam)
 	else
 	{
 		cam->vsb1.x = 1;
-		cam->vsb1.y = (-1) * (cam->vd.x + cam->vsb1.x) / cam->vd.y;
+		cam->vsb1.z = 0;
+		cam->vsb1.y = (-1) * (cam->vd.x * cam->vsb1.x) / cam->vd.y;
 	}
 	if (cam->vd.z == 0)
 		cam->vsb2 = ft_set_vecele(0,0,1);
