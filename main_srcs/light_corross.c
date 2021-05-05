@@ -14,8 +14,8 @@ int	ft_iscross(t_gob *ob, t_light *l, t_cam *cam)
 			break;
 		if (ob->type == 1)
 			i = iscross_sp(ob, l->p, cam);
-		// else if (ob->type == 2)
-		// 	i = iscross_pl(ob, l->p, cam);
+		else if (ob->type == 2)
+			i = iscross_pl(ob, l->p, cam);
 		// else if (ob->type == 3)
 		// 	i = iscross_sq(ob, l->p, cam);
 		// else if (ob->type == 4)
@@ -49,6 +49,7 @@ int iscross_sp(t_gob *sp, t_vec3 lp, t_cam *cam)
 		return (0);
 }
 
+//怪しいので，後で確認入れた方がいいかもしれん．
 int	iscross_pl(t_gob *pl, t_vec3 lp, t_cam *cam)
 {
 	t_vec3	tmp1;
@@ -59,14 +60,15 @@ int	iscross_pl(t_gob *pl, t_vec3 lp, t_cam *cam)
 
 	//rayと物体のぶつかる場所
 	tmp1 = ft_linear_transform(cam->vray, cam->p, cam->distance, 1);
-	c = ft_inner_product(ft_linear_transform(cam->p, tmp1, 1, -1), pl->vno);
+	c = ft_inner_product(cam->vray, pl->vno);
 	if (c < 0)
 		pl->vno = ft_linear_transform(pl->vno, pl->vno, -1, 0);
 	//tmp1の場所からlightへの方向ベクトル
 	tmp2 = ft_linear_transform(lp, tmp1, 1, -1);
+	tmp2 = ft_make_unitvec(tmp2);
 	a = ft_inner_product(tmp2, pl->vno);
 	b = ft_inner_product(ft_linear_transform(tmp1, pl->p1, 1, -1), pl->vno);
-	if (a == 0 || b / a < 0)
+	if (a == 0 || b / a > 0)
 		return (0);
 	return (1);
 }

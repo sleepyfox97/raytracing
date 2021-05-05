@@ -39,7 +39,7 @@ int	ft_calcu_color(t_minirt *rt, double x, double y)
 
 	rt->firstcam->distance = INFINITY;
 	rt->firstcam->vray = ft_make_ray(rt->firstcam, x, y);
-	rt->firstcam->tmpcolor = ft_set_color(150, 150, 150);
+	rt->firstcam->tmpcolor = ft_set_color(255, 0, 0);
 	while (1)
 	{
 		if (rt->firstgob->type == 1)

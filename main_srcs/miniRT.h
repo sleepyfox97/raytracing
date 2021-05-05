@@ -152,26 +152,22 @@ int	ft_prepare_print(t_minirt *minirt);
 int	ft_cam_prepare(t_cam *firstcam, double width, double hight);
 void	ft_light_prepare(t_light *flight, t_cam *cam);
 void	ft_obj_prepare(t_gob *firstgob);
+
 //ft_make_screan.c
 t_cam	*ft_make_screan_base(t_cam *cam);
 
 //ft_make_ray.c
 t_vec3	ft_make_ray(t_cam *cam, double x, double y);
-
-
 void	ft_show_image(t_minirt *minirt);
-
 int		ft_calcu_color(t_minirt *minirt, double x, double y);
 void	ft_print_obj(t_minirt *minirt);
-
 double	ft_sp_color(t_gob *sp, t_cam *cam, t_light *light, t_amblight al);
 double	ft_make_sp(t_cam *cam, t_gob *sp);
-
 t_color ft_set_color(double r, double g, double b);
 t_color	ft_ambient_light(t_color c_color, t_amblight a);
 void	ft_show_image(t_minirt *minirt);
-
 double	ft_pl_color(t_gob *pl, t_cam *cam, t_light *l, t_amblight al);
+
 
 //light
 void 	ft_diffusion_light_sp(t_cam *cam, t_light *l, t_gob *sp, t_vec3 v);

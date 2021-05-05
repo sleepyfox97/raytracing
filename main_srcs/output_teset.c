@@ -39,8 +39,14 @@ void	print_prepare_obj(t_gob *first)
 		if (first->type == 1)
 		{
 			printf("this is sphere\n\n");
-		printf("sp->next = %p\n", first->next);
-		printf("sp       = %p\n", first);
+			printf("sp->next = %p\n", first->next);
+			printf("sp       = %p\n", first);
+		}
+		if (first->type == 2)
+		{
+			printf("this is plane\n\n");
+			printf("sp->next = %p\n", first->next);
+			printf("sp       = %p\n", first);
 		}
 		if (first->next->obnum == 1)
 			break ;

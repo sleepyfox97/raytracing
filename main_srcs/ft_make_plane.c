@@ -1,5 +1,8 @@
 #include "./miniRT.h"
 
+
+//rayの方向とplの方向が平行になったら平面映らなくなるから注意．
+
 double	ft_pl_color(t_gob *pl, t_cam *cam, t_light *l, t_amblight al)
 {
 	double	t;
@@ -9,13 +12,11 @@ double	ft_pl_color(t_gob *pl, t_cam *cam, t_light *l, t_amblight al)
 	t_light	*ltmp;
 
 	tmp1 = ft_inner_product(cam->vray, pl->vno);
-	vptoc = ft_linear_transform(cam->p, pl->p1, -1, 1);
+	vptoc = ft_linear_transform(cam->p, pl->p1, -1, 1);//ここじゃなくて，準備段階で計算できる．
 	tmp2 = ft_inner_product(vptoc, pl->vno);
 	t = tmp2 / tmp1;
-	if (t < 0)
-		return (cam->distance);
 	ltmp = l;
-	if (cam->distance > t)
+	if (cam->distance > t && t > 0)
 	{
 		cam->distance = t;
 		cam->tmpcolor = ft_ambient_light(cam->tmpcolor, al);
@@ -29,3 +30,4 @@ double	ft_pl_color(t_gob *pl, t_cam *cam, t_light *l, t_amblight al)
 	}
 	return (cam->distance);
 }
+

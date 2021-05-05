@@ -37,6 +37,7 @@ int	ft_atof(char *s, int i, double *result)
 		return (0);
 	return (i);
 }
+
 //-0.5とかに対応できてない．
 int	ft_atol(char *s, int i, double *result)
 {

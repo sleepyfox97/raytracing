@@ -40,7 +40,7 @@ void	ft_type2(t_minirt *minirt, char *argv)
 		if(!ft_prepare_print(minirt))
 			return ft_clear_minirt(minirt);
 		print_prepare_cam(minirt->firstcam);
-		// print_prepare_obj(minirt->firstgob);
+		print_prepare_obj(minirt->firstgob);
 		ft_print_obj(minirt);
 		ft_show_image(minirt);
 		printf("if this comment shows, You can write good code\n");
